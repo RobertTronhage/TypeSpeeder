@@ -22,7 +22,6 @@ public class Controller {
     public void login(){
         boolean runProgram = true;
         do {
-
             io.addString("Please enter username:");
             String username = io.getString();
             io.addString("Please enter password:");
@@ -34,7 +33,6 @@ public class Controller {
                 io.addString("Incorrect username or password!");
                 runProgram=true;
             }else {
-
 //                RoleType playerRole = foundPlayer.getRole(); //kontrollerar rolltyp på player, olika färger i meny beroende på vad för sort spelare.
                 mainMenu(foundPlayer);
             }
@@ -84,8 +82,31 @@ public class Controller {
                     2 - Start game in Swedish
                     """);
 
+            io.getValidIntegerInput(0,3);
+
+            switch (menuOption){
+                case 0 -> {
+                    return;
+                }
+                case 1 -> {
+                    System.out.println("english");
+                }
+                case 2 -> {
+                    System.out.println("swenska");
+                }
+            }
+
+            io.addString("""
+                    Choose game mode below:
+                    0 - Exit to main menu
+                    1 - Type whole sentences
+                    2 - Type selected text
+                    3 - Type special characters
+                    """);
+
         }while(menuOption!=0);
     }
+
     public void leaderBoardMenu(Player foundPlayer){
 
     }
@@ -93,5 +114,7 @@ public class Controller {
     public void editPlayerMenu(Player foundPlayer){
 
     }
+
+
 
 }

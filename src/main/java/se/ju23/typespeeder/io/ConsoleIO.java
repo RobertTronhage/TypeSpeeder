@@ -48,7 +48,24 @@ public class ConsoleIO implements IO{
 
     @Override
     public String getString() {
-        return scanner.nextLine();
+        String userInput;
+        boolean isUserInputInvalid;
+
+        do {
+            userInput = scanner.nextLine();
+            if (!userInput.matches("[-a-zA-ZåäöÅÄÖ0-9@._ ]+")) {
+                System.out.println("Incorrect format, you cannot use special characters!");
+                isUserInputInvalid = true;
+            } else if (userInput.isEmpty()) {
+                System.out.println("entry cannot be blank..");
+                isUserInputInvalid = true;
+            } else {
+                isUserInputInvalid = false;
+            }
+
+        } while (isUserInputInvalid);
+
+        return userInput;
     }
 
     @Override
