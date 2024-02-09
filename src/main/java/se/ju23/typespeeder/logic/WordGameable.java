@@ -6,5 +6,4 @@ public interface WordGameable {
     void inputString(String word);
     void displayString(String words);
     double calculateCorrectWordsPercentage();
-
 }

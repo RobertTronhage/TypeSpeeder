@@ -8,12 +8,35 @@ public class ConsoleIO implements IO{
         this.scanner = new Scanner(System.in);
     }
 
-    public String introText(){
-        return " ______              ____                __       \n" +
+    public void introText(){
+        System.out.println("Welcome to");
+        System.out.println( " ______              ____                __       \n" +
                 "/_  __/_ _____  ___ / __/__  ___ ___ ___/ /__ ____\n" +
                 " / / / // / _ \\/ -_)\\ \\/ _ \\/ -_) -_) _  / -_) __/\n" +
                 "/_/  \\_, / .__/\\__/___/ .__/\\__/\\__/\\_,_/\\__/_/   \n" +
-                "    /___/_/          /_/                          ";
+                "    /___/_/          /_/                          ");
+    }
+
+    public int getValidIntegerInput(int minValue, int maxValue){
+        int userInput = 0;
+        boolean isUserInputInvalid;
+
+        do {
+            isUserInputInvalid = false;
+            try {
+                userInput = scanner.nextInt();
+                if (userInput < minValue || userInput > maxValue) {
+                    System.out.println("Invalid entry, please enter a number between " + minValue + " and " + maxValue + "...");
+                    isUserInputInvalid = true;
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid entry, please enter a number between " + minValue + " and " + maxValue + "...");
+                isUserInputInvalid = true;
+            }
+            scanner.nextLine();
+        } while (isUserInputInvalid);
+
+        return userInput;
     }
 
     @Override
@@ -25,13 +48,12 @@ public class ConsoleIO implements IO{
 
     @Override
     public String getString() {
-        System.out.print("Enter a value: ");
         return scanner.nextLine();
     }
 
     @Override
     public void addString(String s) {
-        System.out.println("Added string: " + s);
+        System.out.println(s);
     }
 
     @Override

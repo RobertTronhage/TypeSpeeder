@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
+import se.ju23.typespeeder.logic.Controller;
 import se.ju23.typespeeder.repository.MatchRepo;
 import se.ju23.typespeeder.repository.PlayerRepo;
 
@@ -14,9 +15,12 @@ public class Runner implements CommandLineRunner {
     MatchRepo matchRepo;
     @Autowired
     PlayerRepo playerRepo;
+    IO console = new ConsoleIO();
+    Controller controller = new Controller();
     @Override
     public void run(String... args) throws Exception {
-        IO console = new ConsoleIO();
         console.introText();
+        controller.login();
+
     }
 }

@@ -6,5 +6,6 @@ public interface IO {
     void addString(String s);
     void clear();
     void exit();
-    String introText();
+    void introText();
+    int getValidIntegerInput(int minValue, int maxValue);
 }

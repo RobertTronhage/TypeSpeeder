@@ -7,4 +7,5 @@ import se.ju23.typespeeder.entity.Player;
 @Repository
 public interface PlayerRepo extends JpaRepository<Player,Long> {
 
+    Player getPlayerByUserNameAndPassword(String username, String password);
 }
