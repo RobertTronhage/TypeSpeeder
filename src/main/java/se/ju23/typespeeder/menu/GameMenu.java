@@ -11,7 +11,7 @@ import java.util.List;
 public class GameMenu implements MenuService{
     IO io = new ConsoleIO();
     @Override
-    public List getMenuOption() {
+    public List getMenuOptions() {
         List<String>options = new ArrayList<>();
 
         options.add("0 - Exit");
@@ -25,7 +25,7 @@ public class GameMenu implements MenuService{
 
     @Override
     public void displayMenu() {
-        List<String>options = getMenuOption();
+        List<String>options = getMenuOptions();
         for (String s : options){
             io.addString(s);
         }
