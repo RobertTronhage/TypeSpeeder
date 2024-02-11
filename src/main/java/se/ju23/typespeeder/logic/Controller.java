@@ -6,6 +6,9 @@ import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.enums.RoleType;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
+import se.ju23.typespeeder.menu.GameMenu;
+import se.ju23.typespeeder.menu.ManagePlayersMenu;
+import se.ju23.typespeeder.menu.Menu;
 import se.ju23.typespeeder.repository.MatchRepo;
 import se.ju23.typespeeder.repository.PlayerRepo;
 
@@ -16,8 +19,15 @@ public class Controller {
     PlayerRepo playerRepo;
     @Autowired
     MatchRepo matchRepo;
+    @Autowired
+    Menu menu;
+    @Autowired
+    GameMenu gameMenu;
+    @Autowired
+    ManagePlayersMenu managePlayersMenu;
 
     IO io = new ConsoleIO();
+
 
     public void login(){
         boolean runProgram = true;
@@ -44,13 +54,7 @@ public class Controller {
         int menuOption=0;
 
         do {
-            io.addString("""
-                    Chooses option below:
-                    0 - Logout
-                    1 - Play game
-                    2 - View Leaderboard
-                    3 - Edit Players
-                    """);
+            menu.displayMenu();
 
             menuOption = io.getValidIntegerInput(0,3);
 

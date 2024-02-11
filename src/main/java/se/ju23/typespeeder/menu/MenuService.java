@@ -6,5 +6,4 @@ public interface MenuService {
     List getMenuOption();
 
     void displayMenu();
-
 }
