@@ -13,7 +13,7 @@ public class Menu implements MenuService{
     IO io = new ConsoleIO();
 
     @Override
-    public List getMenuOption() {
+    public List getMenuOptions() {
         List<String>options = new ArrayList<>();
 
         options.add("0 - Exit");
@@ -27,7 +27,7 @@ public class Menu implements MenuService{
 
     @Override
     public void displayMenu() {
-        List<String>options = getMenuOption();
+        List<String>options = getMenuOptions();
         for (String s : options){
             io.addString(s);
         }
