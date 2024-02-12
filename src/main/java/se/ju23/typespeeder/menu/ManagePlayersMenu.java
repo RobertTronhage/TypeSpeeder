@@ -1,3 +1,9 @@
+/** ManagePlayersMenu.java
+ * This class creates and displays menu options for CRUD operations on players, implements MenuService interface
+ * Author:Robert Tronhage, robert.tronhage@iths.se
+ * Date 2024-02-12
+ */
+
 package se.ju23.typespeeder.menu;
 
 import org.springframework.stereotype.Component;
@@ -15,7 +21,6 @@ public class ManagePlayersMenu implements MenuService{
         List<String>options = new ArrayList<>();
 
         options.add("0 - Exit");
-
         options.add("1 - Add new player");
         options.add("2 - View players");
         options.add("3 - Edit Players");

@@ -1,3 +1,9 @@
+/** Menu.java
+ * This class creates and displays main menu options for application, implements MenuService interface
+ * Author:Robert Tronhage, robert.tronhage@iths.se
+ * Date 2024-02-12
+ */
+
 package se.ju23.typespeeder.menu;
 
 import org.springframework.stereotype.Component;
