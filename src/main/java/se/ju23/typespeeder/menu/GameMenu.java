@@ -1,11 +1,13 @@
 package se.ju23.typespeeder.menu;
 
+import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
-
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Component
 public class GameMenu implements MenuService{
     IO io = new ConsoleIO();
 
