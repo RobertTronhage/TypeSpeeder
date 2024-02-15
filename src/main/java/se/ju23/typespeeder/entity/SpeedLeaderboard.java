@@ -1,24 +1,26 @@
 package se.ju23.typespeeder.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class SpeedLeaderBoard {
+public class SpeedLeaderboard {
 
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long playerId;
     private String username;
     private double inputSpeed;
 
-    public SpeedLeaderBoard(Long playerId, String username, double inputSpeed) {
+    public SpeedLeaderboard(Long playerId, String username, double inputSpeed) {
         this.playerId = playerId;
         this.username = username;
         this.inputSpeed = inputSpeed;
     }
 
-    public SpeedLeaderBoard() {
+    public SpeedLeaderboard() {
     }
 
     public Long getPlayerId() {
