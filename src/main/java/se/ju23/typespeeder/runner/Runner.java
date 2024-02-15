@@ -15,12 +15,13 @@ public class Runner implements CommandLineRunner {
     MatchRepo matchRepo;
     @Autowired
     PlayerRepo playerRepo;
+    @Autowired
+    Controller controller;
     IO console = new ConsoleIO();
-    Controller controller = new Controller();
     @Override
     public void run(String... args) throws Exception {
         console.introText();
         controller.login();
-
     }
+
 }

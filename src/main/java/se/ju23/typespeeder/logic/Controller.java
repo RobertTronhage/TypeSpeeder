@@ -6,6 +6,9 @@ import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.enums.RoleType;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
+import se.ju23.typespeeder.menu.GameMenu;
+import se.ju23.typespeeder.menu.ManagePlayersMenu;
+import se.ju23.typespeeder.menu.Menu;
 import se.ju23.typespeeder.repository.MatchRepo;
 import se.ju23.typespeeder.repository.PlayerRepo;
 
@@ -16,7 +19,14 @@ public class Controller {
     PlayerRepo playerRepo;
     @Autowired
     MatchRepo matchRepo;
-
+    @Autowired
+    Menu menu;
+    @Autowired
+    GameMenu gameMenu;
+    @Autowired
+    ManagePlayersMenu managePlayersMenu;
+    @Autowired
+    TypingGame typingGame;
     IO io = new ConsoleIO();
 
     public void login(){
@@ -33,10 +43,8 @@ public class Controller {
                 io.addString("Incorrect username or password!");
                 runProgram=true;
             }else {
-//                RoleType playerRole = foundPlayer.getRole(); //kontrollerar rolltyp på player, olika färger i meny beroende på vad för sort spelare.
                 mainMenu(foundPlayer);
             }
-
         }while(runProgram);
     }
 
@@ -44,15 +52,9 @@ public class Controller {
         int menuOption=0;
 
         do {
-            io.addString("""
-                    Chooses option below:
-                    0 - Logout
-                    1 - Play game
-                    2 - View Leaderboard
-                    3 - Edit Players
-                    """);
+            menu.displayMenu();
 
-            menuOption = io.getValidIntegerInput(0,3);
+            menuOption = io.getValidIntegerInput(0,5);
 
             switch (menuOption){
                 case 0 -> {
@@ -62,37 +64,53 @@ public class Controller {
                     gameMenu(foundPlayer);
                 }
                 case 2 -> {
-                    leaderBoardMenu(foundPlayer);
+                    //playerService.displayFoundPlayersStats(foundPlayer);
                 }
                 case 3 -> {
+                    leaderBoardMenu(foundPlayer);
+                }
+                case 4 ->{
                     editPlayerMenu(foundPlayer);
                 }
             }
-
         }while(menuOption != 0);
     }
 
     public void gameMenu(Player foundPlayer){
         int menuOption=0;
         do {
-            io.addString("""
-                    Choose option below:
-                    0 - Exit to main menu
-                    1 - Start game in English
-                    2 - Start game in Swedish
-                    """);
 
-            io.getValidIntegerInput(0,3);
+            //selectLanguage-menu
+
+            int languageChoice = io.getValidIntegerInput(0,3);
+
+            if (languageChoice == 0){
+                break;
+            }else if (languageChoice==1){
+                //setGameLanguage(swedish);
+            }else {
+                //setGameLanguage(english);
+            }
+
+            gameMenu.displayMenu();
+
+            io.getValidIntegerInput(0,4);
 
             switch (menuOption){
                 case 0 -> {
                     return;
                 }
                 case 1 -> {
-                    System.out.println("english");
+
                 }
                 case 2 -> {
-                    System.out.println("swenska");
+                    //playerService.displayFoundPlayersStats();
+                }
+                case 3 -> {
+                    leaderBoardMenu(foundPlayer);
+                }
+                case 4 ->{
+                    editPlayerMenu(foundPlayer);
                 }
             }
 
@@ -109,12 +127,56 @@ public class Controller {
 
     public void leaderBoardMenu(Player foundPlayer){
 
+        //leaderboardMenu.displayMenu();
+
+        int userChoice = io.getValidIntegerInput(0,4);
+
+        do {
+            switch (userChoice){
+                case 0 -> {
+                    return;
+                }
+                case 1 -> {
+                    //most accurate
+                }
+                case 2 -> {
+                    //fastest
+                }
+                case 3 -> {
+                    //most words in a row
+                }
+                case 4 -> {
+                    //highest rank
+                }
+            }
+        }while (userChoice != 0);
+
     }
 
     public void editPlayerMenu(Player foundPlayer){
+        managePlayersMenu.displayMenu();
 
+        int userChoice = io.getValidIntegerInput(0,4);
+
+        do {
+            switch (userChoice){
+                case 0 -> {
+                    return;
+                }
+                case 1 -> {
+                    //create a new player
+                }
+                case 2 -> {
+                    //display players - menu
+                    //search for specific name/id & display all?
+                }
+                case 3 -> {
+                    //edit player
+                }
+                case 4 -> {
+                    //delete player
+                }
+            }
+        }while (userChoice != 0);
     }
-
-
-
 }
