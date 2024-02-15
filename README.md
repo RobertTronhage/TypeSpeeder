@@ -1,20 +1,18 @@
 # TypeSpeeder
 
-<<<<<< main
- main
-main
-This is a test description.
-=======
-main
-hej
-=======
-Description in Feature login branch GitFlow
- main
-=======
+The warnings are written in english and make sure that you read the warnings carefully.
+
 ## Update 1 of 3
 One file is now added to the project:
 
-* MenuTest.Java
+* MenuTest.java
 
-The warnings are written in english and make sure that you read the warnings carefully.
->>>>>> main
+
+
+## Update 2 of 3
+Three files are now added to the project:
+
+* ChallengePerformanceTest.java
+* ChallengeTest.java
+* MenuPerformanceTest.java
+
