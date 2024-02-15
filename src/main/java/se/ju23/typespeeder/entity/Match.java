@@ -13,7 +13,6 @@ public class Match {
 
     @ManyToOne
     @JoinColumn(name="player_id",referencedColumnName = "id")
-    @Column(name="playerid")
     private Player player;
     @Column(name="amountpercent")
     double amountOfCorrectWordsInPercent;
