@@ -3,6 +3,8 @@ package se.ju23.typespeeder.entity;
 import jakarta.persistence.*;
 import se.ju23.typespeeder.enums.RoleType;
 
+import java.util.List;
+
 @Entity
 @Table(name = "players")
 public class Player {
@@ -18,6 +20,9 @@ public class Player {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private RoleType role;
+
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
+    private List<Match> matches;
 
     public Player(String userName, String email, String password, int level, int experience, RoleType role) {
         this.id = id;
