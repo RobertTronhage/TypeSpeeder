@@ -3,7 +3,6 @@ package se.ju23.typespeeder.logic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.entity.Player;
-import se.ju23.typespeeder.enums.RoleType;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
 import se.ju23.typespeeder.menu.GameMenu;
@@ -26,7 +25,7 @@ public class Controller {
     @Autowired
     ManagePlayersMenu managePlayersMenu;
     @Autowired
-    TypingGame typingGame;
+    Challenge challenge;
     IO io = new ConsoleIO();
 
     public void login(){

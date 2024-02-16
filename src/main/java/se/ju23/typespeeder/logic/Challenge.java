@@ -3,14 +3,19 @@ package se.ju23.typespeeder.logic;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TypingGame implements WordGameable{
+public class Challenge implements Challengeable {
     @Override
-    public void startGame() {
+    public void startChallenge() {
 
     }
 
     @Override
     public void endGame() {
+
+    }
+
+    @Override
+    public void lettersToType(){
 
     }
 
