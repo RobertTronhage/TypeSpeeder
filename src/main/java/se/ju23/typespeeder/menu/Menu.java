@@ -11,16 +11,21 @@ import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 @Component
 public class Menu implements MenuService{
 
-    IO io = new ConsoleIO();
+    /*IO io = new ConsoleIO();
 
     @Override
     public List getMenuOptions() {
-        List<String>options = new ArrayList<>();
+        return new ArrayList(Arrays.asList("0- Exit", "1 - Play game", "2 - View your stats", "3 - View global leaderboard", "4 - Manage Players (Admin"));
+    }
+    public List getMenuOptions() {
+        List<String>options = new LinkedList<>();
 
         options.add("0 - Exit");
         options.add("1 - Play game");
@@ -37,5 +42,33 @@ public class Menu implements MenuService{
         for (String s : options){
             io.addString(s);
         }
-    }
+    }*/
+
+//    @Component
+//    public class Menu implements MenuService {
+
+        private static final List<String> MENU_OPTIONS = Arrays.asList(
+                "0 - Exit",
+                "1 - Play game",
+                "2 - View your stats",
+                "3 - View global leaderboard",
+                "4 - Manage Players (Admin)"
+        );
+
+        private final IO io = new ConsoleIO();
+
+        @Override
+        public List<String> getMenuOptions() {
+            return MENU_OPTIONS;
+        }
+
+        @Override
+        public void displayMenu() {
+            StringBuilder menuBuilder = new StringBuilder();
+            for (String option : getMenuOptions()) {
+                menuBuilder.append(option).append("\n");
+            }
+            io.addString(menuBuilder.toString());
+        }
+
 }
