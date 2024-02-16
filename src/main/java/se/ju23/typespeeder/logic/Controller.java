@@ -2,6 +2,7 @@ package se.ju23.typespeeder.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import se.ju23.typespeeder.entity.AccuracyLeaderBoard;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.entity.TopRankLeaderboard;
 import se.ju23.typespeeder.io.ConsoleIO;
@@ -10,6 +11,7 @@ import se.ju23.typespeeder.menu.GameMenu;
 import se.ju23.typespeeder.menu.LeaderboardMenu;
 import se.ju23.typespeeder.menu.ManagePlayersMenu;
 import se.ju23.typespeeder.menu.Menu;
+import se.ju23.typespeeder.repository.AccuracyLeaderboardRepo;
 import se.ju23.typespeeder.repository.MatchRepo;
 import se.ju23.typespeeder.repository.PlayerRepo;
 import se.ju23.typespeeder.repository.TopRankLeaderboardRepo;
@@ -23,6 +25,8 @@ public class Controller {
     PlayerRepo playerRepo;
     @Autowired
     MatchRepo matchRepo;
+    @Autowired
+    AccuracyLeaderboardRepo accuracyLeaderboardRepo;
     @Autowired
     TopRankLeaderboardRepo topRankLeaderboardRepo;
     @Autowired
@@ -147,7 +151,16 @@ public class Controller {
                     return;
                 }
                 case 1 -> {
-                    //most accurate
+                    List<AccuracyLeaderBoard> mostAccuratePlayers = accuracyLeaderboardRepo.findAll();
+                    if (!mostAccuratePlayers.isEmpty()) {
+                        io.addString("Most Accurate Players:");
+                        for (AccuracyLeaderBoard player : mostAccuratePlayers) {
+                            io.addString(player.getUsername() + " - Accuracy: " + player.getAccuracy() + " %");
+                        }
+                    } else {
+                        io.addString("No most accurate players found.");
+                    }
+                    return;
                 }
                 case 2 -> {
                     //fastest
