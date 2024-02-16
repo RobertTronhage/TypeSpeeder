@@ -3,13 +3,18 @@ package se.ju23.typespeeder.logic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.entity.Player;
+import se.ju23.typespeeder.entity.TopRankLeaderboard;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
 import se.ju23.typespeeder.menu.GameMenu;
+import se.ju23.typespeeder.menu.LeaderboardMenu;
 import se.ju23.typespeeder.menu.ManagePlayersMenu;
 import se.ju23.typespeeder.menu.Menu;
 import se.ju23.typespeeder.repository.MatchRepo;
 import se.ju23.typespeeder.repository.PlayerRepo;
+import se.ju23.typespeeder.repository.TopRankLeaderboardRepo;
+
+import java.util.List;
 
 @Component
 public class Controller {
@@ -19,13 +24,19 @@ public class Controller {
     @Autowired
     MatchRepo matchRepo;
     @Autowired
+    TopRankLeaderboardRepo topRankLeaderboardRepo;
+    @Autowired
     Menu menu;
     @Autowired
     GameMenu gameMenu;
     @Autowired
+    LeaderboardMenu leaderboardMenu;
+    @Autowired
     ManagePlayersMenu managePlayersMenu;
     @Autowired
     Challenge challenge;
+
+
     IO io = new ConsoleIO();
 
     public void login(){
@@ -126,7 +137,7 @@ public class Controller {
 
     public void leaderBoardMenu(Player foundPlayer){
 
-        //leaderboardMenu.displayMenu();
+        leaderboardMenu.displayMenu();
 
         int userChoice = io.getValidIntegerInput(0,4);
 
@@ -145,11 +156,19 @@ public class Controller {
                     //most words in a row
                 }
                 case 4 -> {
-                    //highest rank
+                    List<TopRankLeaderboard> topPlayers = topRankLeaderboardRepo.findAll();
+                    if (!topPlayers.isEmpty()) {
+                        io.addString("Top Players:");
+                        for (TopRankLeaderboard player : topPlayers) {
+                            io.addString(player.getUsername() + " - Level: " + player.getLevel());
+                        }
+                    } else {
+                        io.addString("No top players found.");
+                    }
+                    return;
                 }
             }
         }while (userChoice != 0);
-
     }
 
     public void editPlayerMenu(Player foundPlayer){

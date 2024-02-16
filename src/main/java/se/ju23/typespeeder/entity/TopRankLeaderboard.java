@@ -1,11 +1,9 @@
 package se.ju23.typespeeder.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "top_rank_view")
 public class TopRankLeaderboard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
