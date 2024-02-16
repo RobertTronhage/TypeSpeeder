@@ -2,14 +2,16 @@ package se.ju23.typespeeder.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.ju23.typespeeder.entity.Player;
+import se.ju23.typespeeder.entity.*;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
 import se.ju23.typespeeder.menu.GameMenu;
+import se.ju23.typespeeder.menu.LeaderboardMenu;
 import se.ju23.typespeeder.menu.ManagePlayersMenu;
 import se.ju23.typespeeder.menu.Menu;
-import se.ju23.typespeeder.repository.MatchRepo;
-import se.ju23.typespeeder.repository.PlayerRepo;
+import se.ju23.typespeeder.repository.*;
+
+import java.util.List;
 
 @Component
 public class Controller {
@@ -19,13 +21,25 @@ public class Controller {
     @Autowired
     MatchRepo matchRepo;
     @Autowired
+    AccuracyLeaderboardRepo accuracyLeaderboardRepo;
+    @Autowired
+    TopRankLeaderboardRepo topRankLeaderboardRepo;
+    @Autowired
+    SpeedLeaderboardRepo speedLeaderboardRepo;
+    @Autowired
+    StreakLeaderboardRepo streakLeaderboardRepo;
+    @Autowired
     Menu menu;
     @Autowired
     GameMenu gameMenu;
     @Autowired
+    LeaderboardMenu leaderboardMenu;
+    @Autowired
     ManagePlayersMenu managePlayersMenu;
     @Autowired
     Challenge challenge;
+
+
     IO io = new ConsoleIO();
 
     public void login(){
@@ -126,7 +140,7 @@ public class Controller {
 
     public void leaderBoardMenu(Player foundPlayer){
 
-        //leaderboardMenu.displayMenu();
+        leaderboardMenu.displayMenu();
 
         int userChoice = io.getValidIntegerInput(0,4);
 
@@ -136,20 +150,55 @@ public class Controller {
                     return;
                 }
                 case 1 -> {
-                    //most accurate
+                    List<AccuracyLeaderBoard> mostAccuratePlayers = accuracyLeaderboardRepo.findAll();
+                    if (!mostAccuratePlayers.isEmpty()) {
+                        io.addString("Most Accurate Players:");
+                        for (AccuracyLeaderBoard player : mostAccuratePlayers) {
+                            io.addString(player.getUsername() + " - Accuracy: " + player.getAccuracy() + " %");
+                        }
+                    } else {
+                        io.addString("No most accurate players found.");
+                    }
+                    return;
                 }
                 case 2 -> {
-                    //fastest
+                    List<SpeedLeaderboard> fastestPlayers = speedLeaderboardRepo.findAll();
+                    if (!fastestPlayers.isEmpty()) {
+                        io.addString("Fastest Players:");
+                        for (SpeedLeaderboard player : fastestPlayers) {
+                            io.addString(player.getUsername() + " - Speed: " + player.getTimeToCompleteInSec());
+                        }
+                    } else {
+                        io.addString("No fast players found.");
+                    }
+                    return;
                 }
                 case 3 -> {
-                    //most words in a row
+                    List<StreakLeaderboard> streakLeaderboard = streakLeaderboardRepo.findAll();
+                    if (!streakLeaderboard.isEmpty()) {
+                        io.addString("Streak Leaderboard:");
+                        for (StreakLeaderboard player : streakLeaderboard) {
+                            io.addString(player.getUsername() + " - Streak: " + player.getAmountOfConsecutiveCorrectWords());
+                        }
+                    } else {
+                        io.addString("No streak leaderboard found.");
+                    }
+                    return;
                 }
                 case 4 -> {
-                    //highest rank
+                    List<TopRankLeaderboard> topPlayers = topRankLeaderboardRepo.findAll();
+                    if (!topPlayers.isEmpty()) {
+                        io.addString("Top Players:");
+                        for (TopRankLeaderboard player : topPlayers) {
+                            io.addString(player.getUsername() + " - Level: " + player.getLevel());
+                        }
+                    } else {
+                        io.addString("No top players found.");
+                    }
+                    return;
                 }
             }
         }while (userChoice != 0);
-
     }
 
     public void editPlayerMenu(Player foundPlayer){

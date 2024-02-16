@@ -1,13 +1,13 @@
 package se.ju23.typespeeder.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "accuracy_leaderboard_view")
 public class AccuracyLeaderBoard {
 
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long playerId;
     private String username;
     private double accuracy;
@@ -50,7 +50,7 @@ public class AccuracyLeaderBoard {
         return "AccuracyLeaderBoard{" +
                 "playerId=" + playerId +
                 ", username='" + username + '\'' +
-                ", accuracy=" + accuracy +
+                ", accuracy=" + accuracy + "%" +
                 '}';
     }
 }
