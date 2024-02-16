@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.entity.AccuracyLeaderBoard;
 import se.ju23.typespeeder.entity.Player;
+import se.ju23.typespeeder.entity.SpeedLeaderboard;
 import se.ju23.typespeeder.entity.TopRankLeaderboard;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
@@ -11,10 +12,7 @@ import se.ju23.typespeeder.menu.GameMenu;
 import se.ju23.typespeeder.menu.LeaderboardMenu;
 import se.ju23.typespeeder.menu.ManagePlayersMenu;
 import se.ju23.typespeeder.menu.Menu;
-import se.ju23.typespeeder.repository.AccuracyLeaderboardRepo;
-import se.ju23.typespeeder.repository.MatchRepo;
-import se.ju23.typespeeder.repository.PlayerRepo;
-import se.ju23.typespeeder.repository.TopRankLeaderboardRepo;
+import se.ju23.typespeeder.repository.*;
 
 import java.util.List;
 
@@ -29,6 +27,8 @@ public class Controller {
     AccuracyLeaderboardRepo accuracyLeaderboardRepo;
     @Autowired
     TopRankLeaderboardRepo topRankLeaderboardRepo;
+    @Autowired
+    SpeedLeaderboardRepo speedLeaderboardRepo;
     @Autowired
     Menu menu;
     @Autowired
@@ -163,7 +163,16 @@ public class Controller {
                     return;
                 }
                 case 2 -> {
-                    //fastest
+                    List<SpeedLeaderboard> fastestPlayers = speedLeaderboardRepo.findAll();
+                    if (!fastestPlayers.isEmpty()) {
+                        io.addString("Fastest Players:");
+                        for (SpeedLeaderboard player : fastestPlayers) {
+                            io.addString(player.getUsername() + " - Speed: " + player.getTimeToCompleteInSec());
+                        }
+                    } else {
+                        io.addString("No fast players found.");
+                    }
+                    return;
                 }
                 case 3 -> {
                     //most words in a row
