@@ -5,12 +5,11 @@ import se.ju23.typespeeder.enums.GameMode;
 import se.ju23.typespeeder.enums.RoleType;
 
 @Entity
-@Table(name="match")
+@Table(name="matches")
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-
     @ManyToOne
     @JoinColumn(name="player_id",referencedColumnName = "id")
     private Player player;
