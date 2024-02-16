@@ -1,58 +1,43 @@
 package se.ju23.typespeeder.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "streak_leaderboard_view")
 public class StreakLeaderboard {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long playerId;
     private String username;
-    private double maxStreak;
+    @Column(name = "amount_of_consecutive_correct_words")
+    private double amountOfConsecutiveCorrectWords;
 
-    public StreakLeaderboard(Long playerId, String username, double maxStreak) {
-        this.playerId = playerId;
+    public StreakLeaderboard(String username, double amountOfConsecutiveCorrectWords) {
         this.username = username;
-        this.maxStreak = maxStreak;
+        this.amountOfConsecutiveCorrectWords = amountOfConsecutiveCorrectWords;
     }
 
     public StreakLeaderboard() {
     }
-
-    public Long getPlayerId() {
-        return playerId;
-    }
-
-    public void setPlayerId(Long playerId) {
-        this.playerId = playerId;
-    }
-
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public double getAmountOfConsecutiveCorrectWords() {
+        return amountOfConsecutiveCorrectWords;
     }
 
-    public double getMaxStreak() {
-        return maxStreak;
-    }
-
-    public void setMaxStreak(double maxStreak) {
-        this.maxStreak = maxStreak;
+    public void setAmountOfConsecutiveCorrectWords(double maxStreak) {
+        this.amountOfConsecutiveCorrectWords = maxStreak;
     }
 
     @Override
     public String toString() {
         return "StreakLeaderboard{" +
-                "playerId=" + playerId +
-                ", username='" + username + '\'' +
-                ", maxStreak=" + maxStreak +
+                "username='" + username + '\'' +
+                ", amountOfConsecutiveCorrectWords=" + amountOfConsecutiveCorrectWords +
                 '}';
     }
 }

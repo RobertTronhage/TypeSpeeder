@@ -2,10 +2,7 @@ package se.ju23.typespeeder.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.ju23.typespeeder.entity.AccuracyLeaderBoard;
-import se.ju23.typespeeder.entity.Player;
-import se.ju23.typespeeder.entity.SpeedLeaderboard;
-import se.ju23.typespeeder.entity.TopRankLeaderboard;
+import se.ju23.typespeeder.entity.*;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
 import se.ju23.typespeeder.menu.GameMenu;
@@ -29,6 +26,8 @@ public class Controller {
     TopRankLeaderboardRepo topRankLeaderboardRepo;
     @Autowired
     SpeedLeaderboardRepo speedLeaderboardRepo;
+    @Autowired
+    StreakLeaderboardRepo streakLeaderboardRepo;
     @Autowired
     Menu menu;
     @Autowired
@@ -175,7 +174,16 @@ public class Controller {
                     return;
                 }
                 case 3 -> {
-                    //most words in a row
+                    List<StreakLeaderboard> streakLeaderboard = streakLeaderboardRepo.findAll();
+                    if (!streakLeaderboard.isEmpty()) {
+                        io.addString("Streak Leaderboard:");
+                        for (StreakLeaderboard player : streakLeaderboard) {
+                            io.addString(player.getUsername() + " - Streak: " + player.getAmountOfConsecutiveCorrectWords());
+                        }
+                    } else {
+                        io.addString("No streak leaderboard found.");
+                    }
+                    return;
                 }
                 case 4 -> {
                     List<TopRankLeaderboard> topPlayers = topRankLeaderboardRepo.findAll();
