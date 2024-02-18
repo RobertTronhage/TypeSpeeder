@@ -1,5 +1,6 @@
 package se.ju23.typespeeder.io;
 import org.springframework.stereotype.Component;
+import se.ju23.typespeeder.menu.Menu;
 
 import java.util.Scanner;
 
@@ -8,7 +9,11 @@ public class ConsoleIO implements IO{
     private Scanner scanner;
 
     public ConsoleIO(){
+        long startTime = System.currentTimeMillis();
         this.scanner = new Scanner(System.in);
+        long endTime = System.currentTimeMillis();
+        long duration = (endTime - startTime);
+        System.out.println(duration);
     }
 
     public void introText(){

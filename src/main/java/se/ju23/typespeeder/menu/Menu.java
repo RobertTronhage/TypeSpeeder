@@ -1,4 +1,5 @@
-/** Menu.java
+/**
+ * Menu.java
  * This class creates and displays main menu options for application, implements MenuService interface
  * Author:Robert Tronhage, robert.tronhage@iths.se
  * Date 2024-02-12
@@ -19,12 +20,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Component
-public class Menu implements MenuService{
+public class Menu implements MenuService {
 
-    IO io = new ConsoleIO();
 
     private String languageChoice;
-    public String getLanguageChoice(){
+
+    public String getLanguageChoice() {
         return languageChoice;
     }
 
@@ -32,31 +33,33 @@ public class Menu implements MenuService{
     public List getMenuOptions() {
         return new ArrayList(Arrays.asList("0 - Exit", "1 - Play game", "2 - View your stats", "3 - View global leaderboard", "4 - Manage Players (Admin)"));
     }
+
     public List getMenuOptionsInSwedish() {
         return new ArrayList(Arrays.asList("0 - Logga ut", "1 - Spela", "2 - Se din statistik", "3 - Visa global topplista", "4 - Hantera spelare (Admin)"));
     }
 
     @Override
     public void displayMenu(Player foundPlayer) {
-            io.addString("Välj språk (svenska/engelska):");
-            io.addString("Choose language (swedish/english):");
-            languageChoice = io.getString().toLowerCase();
+        IO io = new ConsoleIO();
+        io.addString("Välj språk (svenska/engelska):");
+        io.addString("Choose language (swedish/english):");
+        languageChoice = io.getString().toLowerCase();
 
-            List<String> options;
-            if (languageChoice.equals("svenska") || languageChoice.equals("swedish")) {
-                io.addString("Svenska valt...");
-                options = getMenuOptionsInSwedish();
-            } else {
-                io.addString("English selected");
-                options = getMenuOptions();
-            }
+        List<String> options;
+        if (languageChoice.equals("svenska") || languageChoice.equals("swedish")) {
+            io.addString("Svenska valt...");
+            options = getMenuOptionsInSwedish();
+        } else {
+            io.addString("English selected");
+            options = getMenuOptions();
+        }
 
-            if (foundPlayer.getRole() == RoleType.player) {
-                options.set(4, ColorHandler.gray(options.get(4)));
-            }
+        if (foundPlayer.getRole() == RoleType.player) {
+            options.set(4, ColorHandler.gray(options.get(4)));
+        }
 
-            for (String s : options) {
-                io.addString(s);
-            }
+        for (String s : options) {
+            io.addString(s);
+        }
     }
 }
