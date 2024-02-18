@@ -18,6 +18,7 @@ public class MenuPerformanceTest {
 
     @Test
     public void testGetMenuOptionsExecutionTime() {
+
         long startTime = System.nanoTime();
         Menu menu = new Menu();
         menu.getMenuOptions();

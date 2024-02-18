@@ -18,57 +18,34 @@ import java.util.List;
 @Component
 public class Menu implements MenuService{
 
-    /*IO io = new ConsoleIO();
+    IO io = new ConsoleIO();
 
     @Override
     public List getMenuOptions() {
         return new ArrayList(Arrays.asList("0- Exit", "1 - Play game", "2 - View your stats", "3 - View global leaderboard", "4 - Manage Players (Admin"));
     }
-    public List getMenuOptions() {
-        List<String>options = new LinkedList<>();
-
-        options.add("0 - Exit");
-        options.add("1 - Play game");
-        options.add("2 - View your stats");
-        options.add("3 - View global leaderboard");
-        options.add("4 - Manage Players (Admin)");
-
-        return options;
+    public List getMenuOptionsInSwedish() {
+        return new ArrayList(Arrays.asList("0- Logga ut", "1 - Spela", "2 - Se din statistik", "3 - Visa global topplista", "4 - Hantera spelare (Admin"));
     }
 
     @Override
     public void displayMenu() {
-        List<String>options = getMenuOptions();
-        for (String s : options){
-            io.addString(s);
-        }
-    }*/
+        io.addString("Välj språk (svenska/engelska):");
+        io.addString("Choose language (swedish/english):");
+        String languageChoice = io.getString().toLowerCase();
 
-//    @Component
-//    public class Menu implements MenuService {
-
-        private static final List<String> MENU_OPTIONS = Arrays.asList(
-                "0 - Exit",
-                "1 - Play game",
-                "2 - View your stats",
-                "3 - View global leaderboard",
-                "4 - Manage Players (Admin)"
-        );
-
-        private final IO io = new ConsoleIO();
-
-        @Override
-        public List<String> getMenuOptions() {
-            return MENU_OPTIONS;
-        }
-
-        @Override
-        public void displayMenu() {
-            StringBuilder menuBuilder = new StringBuilder();
-            for (String option : getMenuOptions()) {
-                menuBuilder.append(option).append("\n");
+        if (languageChoice.equals("svenska")||languageChoice.equals("swedish")){
+            io.addString("Svenska valt...");
+            List<String>options = getMenuOptionsInSwedish();
+            for (String s : options){
+                io.addString(s);
             }
-            io.addString(menuBuilder.toString());
+        }else {
+            io.addString("English selected");
+            List<String> options = getMenuOptions();
+            for (String s : options) {
+                io.addString(s);
+            }
         }
-
+    }
 }
