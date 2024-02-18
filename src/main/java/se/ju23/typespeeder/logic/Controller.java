@@ -5,10 +5,7 @@ import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.entity.*;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
-import se.ju23.typespeeder.menu.GameMenu;
-import se.ju23.typespeeder.menu.LeaderboardMenu;
-import se.ju23.typespeeder.menu.ManagePlayersMenu;
-import se.ju23.typespeeder.menu.Menu;
+import se.ju23.typespeeder.menu.*;
 import se.ju23.typespeeder.repository.*;
 
 import java.util.List;
@@ -31,13 +28,15 @@ public class Controller {
     @Autowired
     Menu menu;
     @Autowired
-    GameMenu gameMenu;
+    ChallangeMenu challangeMenu;
     @Autowired
     LeaderboardMenu leaderboardMenu;
     @Autowired
     ManagePlayersMenu managePlayersMenu;
     @Autowired
     Challenge challenge;
+    @Autowired
+    ChallengeLanguageChoice challengeLanguageChoice;
 
 
     IO io = new ConsoleIO();
@@ -65,7 +64,7 @@ public class Controller {
         int menuOption=0;
 
         do {
-            menu.displayMenu();
+            menu.displayMenu(foundPlayer);
 
             menuOption = io.getValidIntegerInput(0,5);
 
@@ -74,7 +73,7 @@ public class Controller {
                     return;
                 }
                 case 1 -> {
-                    gameMenu(foundPlayer);
+                    challangeMenu(foundPlayer);
                 }
                 case 2 -> {
                     //playerService.displayFoundPlayersStats(foundPlayer);
@@ -89,35 +88,35 @@ public class Controller {
         }while(menuOption != 0);
     }
 
-    public void gameMenu(Player foundPlayer){
+    public void challangeMenu(Player foundPlayer){
         int menuOption=0;
+
         do {
+            challengeLanguageChoice.displayMenu(foundPlayer);
 
-            //selectLanguage-menu
+            int challengeLanguageChoice = io.getValidIntegerInput(0,3);
 
-            int languageChoice = io.getValidIntegerInput(0,3);
-
-            if (languageChoice == 0){
+            if (challengeLanguageChoice == 0){
                 break;
-            }else if (languageChoice==1){
+            }else if (challengeLanguageChoice==1){
                 //setGameLanguage(swedish);
             }else {
                 //setGameLanguage(english);
             }
 
-            gameMenu.displayMenu();
+            challangeMenu.displayMenu(foundPlayer);
 
-            io.getValidIntegerInput(0,4);
+            menuOption = io.getValidIntegerInput(0,4);
 
             switch (menuOption){
                 case 0 -> {
                     return;
                 }
                 case 1 -> {
-
+                    //playgameeee
                 }
                 case 2 -> {
-                    //playerService.displayFoundPlayersStats();
+                    //playerService.displayFoundPlayersStats(foundPlayer);
                 }
                 case 3 -> {
                     leaderBoardMenu(foundPlayer);
@@ -127,20 +126,12 @@ public class Controller {
                 }
             }
 
-            io.addString("""
-                    Choose game mode below:
-                    0 - Exit to main menu
-                    1 - Type whole sentences
-                    2 - Type selected text
-                    3 - Type special characters
-                    """);
-
         }while(menuOption!=0);
     }
 
     public void leaderBoardMenu(Player foundPlayer){
 
-        leaderboardMenu.displayMenu();
+        leaderboardMenu.displayMenu(foundPlayer);
 
         int userChoice = io.getValidIntegerInput(0,4);
 
@@ -202,7 +193,7 @@ public class Controller {
     }
 
     public void editPlayerMenu(Player foundPlayer){
-        managePlayersMenu.displayMenu();
+        managePlayersMenu.displayMenu(foundPlayer);
 
         int userChoice = io.getValidIntegerInput(0,4);
 

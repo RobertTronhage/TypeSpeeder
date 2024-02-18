@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
 import org.mockito.Mockito;
+import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.menu.Menu;
 import se.ju23.typespeeder.menu.MenuService;
 
@@ -79,7 +80,8 @@ public class MenuTest {
     @Test
     public void testDisplayMenuCallsGetMenuOptionsAndReturnsAtLeastFive() {
         Menu menuMock = Mockito.spy(new Menu());
-        menuMock.displayMenu();
+        Player p = new Player();
+        menuMock.displayMenu(p);
         verify(menuMock, times(1)).getMenuOptions();
         assertTrue(menuMock.getMenuOptions().size() >= 5, "'getMenuOptions()' should return at least 5 alternatives.");
     }
@@ -93,7 +95,8 @@ public class MenuTest {
 
     @Test
     public void menuShouldPrintAtLeastFiveOptions() {
-        new Menu().displayMenu();
+        Player p = new Player();
+        new Menu().displayMenu(p);
         long count = outContent.toString().lines().count();
         assertTrue(count >= 5, "The menu should print out at least 5 alternatives.");
     }
@@ -107,7 +110,8 @@ public class MenuTest {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         Menu menu = new Menu();
-        menu.displayMenu();
+        Player p = new Player();
+        menu.displayMenu(p);
 
         String consoleOutput = outContent.toString();
         assertTrue(consoleOutput.contains("Välj språk (svenska/engelska):"), "Menu should prompt for language selection.");

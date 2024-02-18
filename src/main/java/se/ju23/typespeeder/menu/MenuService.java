@@ -7,10 +7,12 @@
 
 package se.ju23.typespeeder.menu;
 
+import se.ju23.typespeeder.entity.Player;
+
 import java.util.List;
 
 public interface MenuService {
     List getMenuOptions();
 
-    void displayMenu();
+    void displayMenu(Player p);
 }

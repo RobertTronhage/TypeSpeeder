@@ -6,15 +6,31 @@
 
 package se.ju23.typespeeder.menu;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class GameMenu implements MenuService{
+public class ChallangeMenu implements MenuService{
     IO io = new ConsoleIO();
+    @Autowired
+    Menu menu;
+
+    public List getMenuOptionsInSwedish() {
+        List<String>options = new ArrayList<>();
+
+        options.add("0 - Åter till huvudmenyn");
+        options.add("1 - Starta ett standardspel på svenska");
+        options.add("2 - Starta ett standardspel på engelska");
+        options.add("3 - Starta ett spel med specialtecken");
+        options.add("4 - Starta ett spel med markerade tecken");
+
+        return options;
+    }
 
     @Override
     public List getMenuOptions() {
@@ -30,8 +46,14 @@ public class GameMenu implements MenuService{
     }
 
     @Override
-    public void displayMenu() {
-        List<String>options = getMenuOptions();
+    public void displayMenu(Player foundPlayer) {
+        List<String> options;
+        if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")){
+            options = getMenuOptionsInSwedish();
+        }else {
+            options = getMenuOptions();
+        }
+
         for (String s : options){
             io.addString(s);
         }
