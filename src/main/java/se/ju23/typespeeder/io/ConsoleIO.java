@@ -9,11 +9,7 @@ public class ConsoleIO implements IO{
     private Scanner scanner;
 
     public ConsoleIO(){
-        long startTime = System.currentTimeMillis();
         this.scanner = new Scanner(System.in);
-        long endTime = System.currentTimeMillis();
-        long duration = (endTime - startTime);
-        System.out.println(duration);
     }
 
     public void introText(){
@@ -72,6 +68,13 @@ public class ConsoleIO implements IO{
             }
 
         } while (isUserInputInvalid);
+
+        return userInput;
+    }
+
+    @Override
+    public String getEmptyString(){
+        String userInput = scanner.nextLine();
 
         return userInput;
     }

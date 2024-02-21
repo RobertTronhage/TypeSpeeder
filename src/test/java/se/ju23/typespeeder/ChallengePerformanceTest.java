@@ -4,6 +4,10 @@ package se.ju23.typespeeder;
 import org.junit.jupiter.api.Test;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.logic.Challenge;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ChallengePerformanceTest {
@@ -24,9 +28,10 @@ public class ChallengePerformanceTest {
     @Test
     public void testLettersToTypePerformance() {
         Challenge challenge = new Challenge();
+        List<String>words = new ArrayList<>();
         long startTime = System.nanoTime();
 
-        challenge.lettersToType();
+        challenge.lettersToType(words);
         long endTime = System.nanoTime();
         long duration = (endTime - startTime) / MILLISECONDS_CONVERSION;
 
