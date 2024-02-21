@@ -1,5 +1,7 @@
 package se.ju23.typespeeder.logic;
 
+import se.ju23.typespeeder.io.ColorHandler;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +22,11 @@ public class Data {
             "Approach", "Development", "Perspective", "Community", "Enhancement"
     };
 
-    public static List<String> getRandomWordsForStandardGame(String[] words) {
+    public static final String[] specialCharacters = {
+            "!#&)", "%/", "=?½", "&%#", ")&/" , "%" , ")(" , "§" , "]" , "'"
+    };
+
+    public static List<String> getRandomWordsForGame(String[] words) {
         List<String> randomWords = new ArrayList<>();
         Random random = new Random();
         List<String> tempWords = new ArrayList<>(List.of(words));
@@ -32,4 +38,25 @@ public class Data {
         }
         return randomWords;
     }
+
+    public static String generateHighlightedWords(String randomWords){
+        String[] words = randomWords.split(" ");
+        StringBuilder highlightedWords = new StringBuilder();
+
+        for (int i = 0; i < words.length; i++) {
+            if (i % 2 == 0) {
+                highlightedWords.append(ColorHandler.blue(words[i]));
+            } else {
+                highlightedWords.append(words[i]);
+            }
+
+            if (i < words.length - 1) {
+                highlightedWords.append(" ");
+            }
+        }
+
+        return highlightedWords.toString();
+    }
+
+
 }

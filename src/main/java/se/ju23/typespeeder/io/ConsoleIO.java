@@ -73,7 +73,7 @@ public class ConsoleIO implements IO{
     }
 
     @Override
-    public String getEmptyString(){
+    public String getAnyString(){
         String userInput = scanner.nextLine();
 
         return userInput;

@@ -8,5 +8,5 @@ import java.util.List;
 public interface Challengeable {
     void startChallenge(Player foundPlayer);
     String lettersToType(List<String>list);
-    void checkAccuracy(String goalWords, String playerWords, GameMode gameMode);
+    double[] checkAccuracy(String goalWords, String playerWords, GameMode gameMode);
 }

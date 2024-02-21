@@ -8,7 +8,6 @@ import se.ju23.typespeeder.enums.GameMode;
 import se.ju23.typespeeder.io.ColorHandler;
 import se.ju23.typespeeder.io.IO;
 import se.ju23.typespeeder.menu.ChallangeMenu;
-import se.ju23.typespeeder.menu.ManagePlayersMenu;
 import se.ju23.typespeeder.menu.Menu;
 
 import java.util.List;
@@ -42,10 +41,10 @@ public class Challenge implements Challengeable {
                     startStandardGameInEnglish(foundPlayer);
                 }
                 case 3 -> {
-                    startHighlightedCharacterGame(foundPlayer);
+                    startSpecialCharacterGame(foundPlayer);
                 }
                 case 4 -> {
-                    startSpecialCharacterGame(foundPlayer);
+                    startHighlightedCharacterGame(foundPlayer);
                 }
             }
         } while (choice != 0);
@@ -61,48 +60,66 @@ public class Challenge implements Challengeable {
     }
 
     @Override
-    public void checkAccuracy(String goalWords, String playerWords, GameMode gameMode) {
+    public double[] checkAccuracy(String goalWords, String playerWords, GameMode gameMode) {
 
-        int correctCount = 0;
-        int minLength = Math.min(goalWords.length(), playerWords.length());
-        double accuracy = 0;
+                int correctCount = 0;
+                int maxLengthStreak = 0;
+                int currentStreak = 0;
+                int minLength = Math.min(goalWords.length(), playerWords.length());
+                double accuracy = 0;
 
-        for (int i = 0; i < minLength; i++) {
-            char goalChar = goalWords.charAt(i);
-            char playerChar = playerWords.charAt(i);
+                for (int i = 0; i < minLength; i++) {
+                    char goalChar = goalWords.charAt(i);
+                    char playerChar = playerWords.charAt(i);
 
-            if (gameMode == GameMode.easy) {
-                if (Character.toLowerCase(goalChar) == Character.toLowerCase(playerChar)) {
-                    correctCount++;
+                    if (gameMode == GameMode.easy) {
+                        if (Character.toLowerCase(goalChar) == Character.toLowerCase(playerChar)) {
+                            correctCount++;
+                            currentStreak++;
+                        } else {
+                            maxLengthStreak = Math.max(maxLengthStreak, currentStreak);
+                            currentStreak = 0;
+                        }
+                    } else if (gameMode == GameMode.hard) {
+                        if (goalChar == playerChar) {
+                            correctCount++;
+                            currentStreak++;
+                        } else {
+                            maxLengthStreak = Math.max(maxLengthStreak, currentStreak);
+                            currentStreak = 0;
+                        }
+                    }
+                    accuracy = (double) correctCount / Math.max(goalWords.length(), playerWords.length()) * 100;
                 }
-            } else if (gameMode == GameMode.hard) {
-                // Om spelet är på svår nivå, jämför tecken inklusive skillnader i stor bokstav
-                if (goalChar == playerChar) {
-                    correctCount++;
-                }
+
+                maxLengthStreak = Math.max(maxLengthStreak, currentStreak);
+
+                return new double[]{accuracy, correctCount, maxLengthStreak};
             }
-            accuracy = (double) correctCount / Math.max(goalWords.length(), playerWords.length()) * 100;
-        }
-        io.addString(accuracy + "% was correct");
-    }
 
     public void startStandardGameInSwedish(Player foundPlayer) {
         Match match = new Match();
         match.setGameMode(setDifficultyForStandardGame());
         getStandardGameInstructions();
 
-        String wait = (io.getEmptyString());
+        String wait = io.getAnyString();
 
         double startTime = System.currentTimeMillis();
 
-        String goalWords = lettersToType(Data.getRandomWordsForStandardGame(Data.swedishWords));
+        String goalWords = lettersToType(Data.getRandomWordsForGame(Data.swedishWords));
         io.addString(goalWords);
         String playerWords = io.getString();
 
         double endTime = System.currentTimeMillis();
         double durationInSeconds = (endTime - startTime) / 1000 ;
 
-        io.addString("it took " + durationInSeconds + "seconds to finish");
+        double [] accuracy = checkAccuracy(goalWords,playerWords,match.getGameMode());
+
+        double accuracyPercentage = accuracy[0];
+        String formattedAccuracy = String.format("%.2f", accuracyPercentage);
+
+        io.addString("Det tog " + durationInSeconds + "Sekunder att skriva klart!\n" +
+                "du hade en precision på " + formattedAccuracy + "%");
     }
 
     public void startStandardGameInEnglish(Player foundPlayer) {
@@ -110,11 +127,10 @@ public class Challenge implements Challengeable {
         match.setGameMode(setDifficultyForStandardGame());
 
         getStandardGameInstructions();
-        String wait = (io.getEmptyString());
-
+        String wait = io.getAnyString();
+        String goalWords = lettersToType(Data.getRandomWordsForGame(Data.englishWords));
         double startTime = System.currentTimeMillis();
 
-        String goalWords = lettersToType(Data.getRandomWordsForStandardGame(Data.englishWords));
         io.addString(goalWords);
 
         String playerWords = io.getString();
@@ -128,11 +144,44 @@ public class Challenge implements Challengeable {
     }
 
     public void startSpecialCharacterGame(Player foundPlayer) {
-        //instruktioner för spel, därefter spellogik
+        Match match = new Match();
+        match.setGameMode(GameMode.special_characters);
+        getSpecialCharGameInstructions();
+        String goalWords = lettersToType(Data.getRandomWordsForGame(Data.specialCharacters));
+        String wait = (io.getAnyString());
+        double startTime = System.currentTimeMillis();
+
+        io.addString(goalWords);
+        String playerWords = io.getAnyString();
+
+        double endTime = System.currentTimeMillis();
+        double durationInSeconds = (endTime - startTime) / 1000 ;
+
+        double [] accuracy = checkAccuracy(goalWords,playerWords,match.getGameMode());
+
+        double accuracyPercentage = accuracy[0];
+        String formattedAccuracy = String.format("%.2f", accuracyPercentage);
     }
 
     public void startHighlightedCharacterGame(Player foundPlayer) {
-        //instruktioner för spel, därefter spellogik
+        Match match = new Match();
+        getHighlightedGameInstructions();
+        String goalWords = lettersToType(Data.getRandomWordsForGame(Data.englishWords));
+        String highlightedGoalWords = Data.generateHighlightedWords(goalWords);
+        String wait = (io.getAnyString());
+        double startTime = System.currentTimeMillis();
+
+        io.addString(highlightedGoalWords);
+        String playerWords = io.getString();
+
+        double endTime = System.currentTimeMillis();
+        double durationInSeconds = (endTime - startTime) / 1000 ;
+
+        double [] accuracy = checkAccuracy(goalWords,playerWords,match.getGameMode());
+
+        double accuracyPercentage = accuracy[0];
+        String formattedAccuracy = String.format("%.2f", accuracyPercentage);
+
     }
 
     public void getStandardGameInstructions() {
@@ -187,7 +236,7 @@ public class Challenge implements Challengeable {
                     """);
         } else {
             io.addString("""
-                    A number of words will be displayed on the screen. Type the words with one space between each word
+                    A number of words will be displayed on the screen. Type the highlighted words with one space between each word
                     When you're finished typing, press Enter.
                     Press Enter when ready to start!
 
@@ -197,8 +246,8 @@ public class Challenge implements Challengeable {
     public void getSpecialCharGameInstructions() {
         if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")) {
             io.addString("""
-                    Ett antal ord kommer visas på skärmen, Det kommer även visas specialtecken (t ex: '@!"#¤')
-                    Skriv enbart av Specialtecknen med mellanrum mellan varje tecken.
+                    Ett antal specialtecken (t ex: '@!"#½') kommer visas på skärmen,
+                    Skriv in de tecken som visas med mellanrum där det visas.
                     När du skrivit klart. Tryck Enter
                     
                     Tryck på Enter när du är redo att starta!
@@ -206,8 +255,8 @@ public class Challenge implements Challengeable {
                     """);
         } else {
             io.addString("""
-                    A number of words will be displayed on the screen aswell as special characters (eg. '@!"#¤')
-                    Type only the Special characters
+                    A number of special characters (eg. '@!"#¤') will be displayed.
+                    Type the Special characters with space where you can see a space.
                     when you're finished typing, press Enter.
                     
                     Press Enter when ready to start!
