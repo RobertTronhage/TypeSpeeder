@@ -16,7 +16,7 @@ import java.util.List;
 
 @Component
 public class ChallangeMenu implements MenuService{
-    IO io = new ConsoleIO();
+
     @Autowired
     Menu menu;
 
@@ -47,7 +47,9 @@ public class ChallangeMenu implements MenuService{
 
     @Override
     public void displayMenu(Player foundPlayer) {
+        IO io = new ConsoleIO();
         List<String> options;
+
         if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")){
             options = getMenuOptionsInSwedish();
         }else {

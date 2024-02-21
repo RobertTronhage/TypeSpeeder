@@ -2,7 +2,7 @@ package se.ju23.typespeeder;
 
 import org.junit.jupiter.api.Test;
 import se.ju23.typespeeder.entity.Player;
-import se.ju23.typespeeder.menu.Menu;
+import se.ju23.typespeeder.menu.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -54,8 +54,61 @@ public class MenuPerformanceTest {
 
         assertTrue(consoleOutput.contains("Svenska valt."), "Menu should confirm Swedish language selection.");
 
-
         assertTrue(duration <= MAX_EXECUTION_TIME_LANGUAGE_SELECTION, "Menu display and language selection took too long. Execution time: " + duration + " ms.");
+    }
+
+    @Test
+    public void testGetChallangeLanguageChoiceExecutionTime() {
+        double startTime = System.currentTimeMillis();
+
+        ChallengeLanguageChoice menu = new ChallengeLanguageChoice();
+        menu.getMenuOptions();
+
+        double endTime = System.currentTimeMillis();
+        double duration = (endTime - startTime);
+
+        assertTrue(duration <= MAX_EXECUTION_TIME_MENU, "Menu display took too long. Execution time: " + duration + " ms.");
+    }
+
+    @Test
+    public void testGetLeaderboardMenuOptionsExecutionTime() {
+        double startTime = System.currentTimeMillis();
+
+        LeaderboardMenu menu = new LeaderboardMenu();
+        menu.getMenuOptions();
+
+        double endTime = System.currentTimeMillis();
+        double duration = (endTime - startTime);
+
+        assertTrue(duration <= MAX_EXECUTION_TIME_MENU, "Menu display took too long. Execution time: " + duration + " ms.");
+    }
+
+    @Test
+    public void testGetChallangeMenuOptionsExecutionTime() {
+
+        double startTime = System.currentTimeMillis();
+
+        ChallangeMenu menu = new ChallangeMenu();
+        menu.getMenuOptions();
+
+        double endTime = System.currentTimeMillis();
+        double duration = (endTime - startTime);
+
+        assertTrue(duration <= MAX_EXECUTION_TIME_MENU, "Menu display took too long. Execution time: " + duration + " ms.");
+    }
+
+    @Test
+    public void testGetManagePlayersMenuExecutionTime() {
+
+        double startTime = System.currentTimeMillis();
+
+        ManagePlayersMenu menu = new ManagePlayersMenu();
+        menu.getMenuOptions();
+
+        double endTime = System.currentTimeMillis();
+        double duration = (endTime - startTime);
+
+        assertTrue(duration <= MAX_EXECUTION_TIME_MENU, "Menu display took too long. Execution time: " + duration + " ms.");
     }
 
 }

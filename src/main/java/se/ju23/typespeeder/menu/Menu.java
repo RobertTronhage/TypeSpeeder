@@ -41,11 +41,13 @@ public class Menu implements MenuService {
     @Override
     public void displayMenu(Player foundPlayer) {
         IO io = new ConsoleIO();
+
         io.addString("Välj språk (svenska/engelska):");
         io.addString("Choose language (swedish/english):");
         languageChoice = io.getString().toLowerCase();
 
         List<String> options;
+
         if (languageChoice.equals("svenska") || languageChoice.equals("swedish")) {
             io.addString("Svenska valt...");
             options = getMenuOptionsInSwedish();

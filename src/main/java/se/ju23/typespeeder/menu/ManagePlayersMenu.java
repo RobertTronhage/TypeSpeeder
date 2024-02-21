@@ -17,7 +17,7 @@ import java.util.List;
 
 @Component
 public class ManagePlayersMenu implements MenuService{
-    IO io = new ConsoleIO();
+
     @Autowired
     Menu menu;
 
@@ -47,11 +47,14 @@ public class ManagePlayersMenu implements MenuService{
 
     @Override
     public void displayMenu(Player foundPlayer) {
+        IO io = new ConsoleIO();
+
         if (foundPlayer.getRole().equals(RoleType.player)){
             io.addString("Only Admin can manage players\nEndast Admin kan redigare spelare");
             return;
         }
         List<String> options;
+
         if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")){
             options = getMenuOptionsInSwedish();
         }else {

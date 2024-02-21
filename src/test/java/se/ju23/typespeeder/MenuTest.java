@@ -48,7 +48,7 @@ public class MenuTest {
     public void testMethodExists() {
         try {
             Class<?> clazz = Class.forName("se.ju23.typespeeder.menu.Menu");
-            Method method = clazz.getMethod("displayMenu");
+            Method method = clazz.getMethod("displayMenu",Player.class);
             assertNotNull(method, "The method 'displayMenu()' should exist in the class 'Menu'.");
         } catch (ClassNotFoundException e) {
             fail("The class 'Menu' does not exist.", e);
@@ -79,6 +79,10 @@ public class MenuTest {
 
     @Test
     public void testDisplayMenuCallsGetMenuOptionsAndReturnsAtLeastFive() {
+        String input = "english\n";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
         Menu menuMock = Mockito.spy(new Menu());
         Player p = new Player();
         menuMock.displayMenu(p);
@@ -93,11 +97,18 @@ public class MenuTest {
         assertTrue(options.size() >= 5, "The menu should contain at least 5 alternatives.");
     }
 
+    //Adding input to choose language since getOptions is not fetched until language is selected!
     @Test
     public void menuShouldPrintAtLeastFiveOptions() {
+        String input = "svenska\n";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
         Player p = new Player();
         new Menu().displayMenu(p);
+
         long count = outContent.toString().lines().count();
+
         assertTrue(count >= 5, "The menu should print out at least 5 alternatives.");
     }
 
