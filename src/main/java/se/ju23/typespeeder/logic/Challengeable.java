@@ -1,10 +1,10 @@
 package se.ju23.typespeeder.logic;
 
+import se.ju23.typespeeder.entity.Player;
+
 public interface Challengeable {
-    void startChallenge();
+    void startChallenge(Player foundPlayer);
     void lettersToType();
-    void endGame();
-    void inputString(String word);
     void displayString(String words);
-    double calculateCorrectWordsPercentage();
+    void checkAccuracy();
 }

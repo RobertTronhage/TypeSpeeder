@@ -73,7 +73,7 @@ public class Controller {
                     return;
                 }
                 case 1 -> {
-                    challangeMenu(foundPlayer);
+                    challenge.startChallenge(foundPlayer);
                 }
                 case 2 -> {
                     //playerService.displayFoundPlayersStats(foundPlayer);
