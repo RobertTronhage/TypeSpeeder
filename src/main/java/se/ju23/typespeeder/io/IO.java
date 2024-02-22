@@ -9,4 +9,5 @@ public interface IO {
     void exit();
     void introText();
     int getValidIntegerInput(int minValue, int maxValue);
+    long getValidLongInput(long minValue, long maxValue);
 }

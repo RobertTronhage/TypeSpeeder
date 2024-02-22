@@ -2,6 +2,8 @@ package se.ju23.typespeeder.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import se.ju23.typespeeder.Service.MatchService;
+import se.ju23.typespeeder.Service.PlayerService;
 import se.ju23.typespeeder.entity.*;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
@@ -37,7 +39,10 @@ public class Controller {
     Challenge challenge;
     @Autowired
     ChallengeLanguageChoice challengeLanguageChoice;
-
+    @Autowired
+    PlayerService playerService;
+    @Autowired
+    MatchService matchService;
 
     IO io = new ConsoleIO();
 
@@ -86,47 +91,6 @@ public class Controller {
                 }
             }
         }while(menuOption != 0);
-    }
-
-    public void challangeMenu(Player foundPlayer){
-        int menuOption=0;
-
-        do {
-            challengeLanguageChoice.displayMenu(foundPlayer);
-
-            int challengeLanguageChoice = io.getValidIntegerInput(0,3);
-
-            if (challengeLanguageChoice == 0){
-                break;
-            }else if (challengeLanguageChoice==1){
-                //setGameLanguage(swedish);
-            }else {
-                //setGameLanguage(english);
-            }
-
-            challangeMenu.displayMenu(foundPlayer);
-
-            menuOption = io.getValidIntegerInput(0,4);
-
-            switch (menuOption){
-                case 0 -> {
-                    return;
-                }
-                case 1 -> {
-                    //playgameeee
-                }
-                case 2 -> {
-                    //playerService.displayFoundPlayersStats(foundPlayer);
-                }
-                case 3 -> {
-                    leaderBoardMenu(foundPlayer);
-                }
-                case 4 ->{
-                    editPlayerMenu(foundPlayer);
-                }
-            }
-
-        }while(menuOption!=0);
     }
 
     public void leaderBoardMenu(Player foundPlayer){
@@ -203,17 +167,17 @@ public class Controller {
                     return;
                 }
                 case 1 -> {
-                    //create a new player
+                    playerService.addNewPlayer();
                 }
                 case 2 -> {
                     //display players - menu
                     //search for specific name/id & display all?
                 }
                 case 3 -> {
-                    //edit player
+                    playerService.editPlayer();
                 }
                 case 4 -> {
-                    //delete player
+                    playerService.deletePlayer();
                 }
             }
         }while (userChoice != 0);

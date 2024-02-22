@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.enums.RoleType;
+import se.ju23.typespeeder.io.ColorHandler;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class ManagePlayersMenu implements MenuService{
         IO io = new ConsoleIO();
 
         if (foundPlayer.getRole().equals(RoleType.player)){
-            io.addString("Only Admin can manage players\nEndast Admin kan redigare spelare");
+            io.addString(ColorHandler.red("Only Admin can manage players\nEndast Admin kan redigare spelare"));
             return;
         }
         List<String> options;
@@ -64,6 +65,5 @@ public class ManagePlayersMenu implements MenuService{
         for (String s : options){
             io.addString(s);
         }
-
     }
 }

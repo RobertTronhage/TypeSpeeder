@@ -62,40 +62,44 @@ public class Challenge implements Challengeable {
     @Override
     public double[] checkAccuracy(String goalWords, String playerWords, GameMode gameMode) {
 
-                int correctCount = 0;
-                int maxLengthStreak = 0;
-                int currentStreak = 0;
-                int minLength = Math.min(goalWords.length(), playerWords.length());
-                double accuracy = 0;
+        int correctCount = 0;
+        int mistakeCount = 0;
+        int maxLengthStreak = 0;
+        int currentStreak = 0;
+        int minLength = Math.min(goalWords.length(), playerWords.length());
+        double accuracy = 0;
 
-                for (int i = 0; i < minLength; i++) {
-                    char goalChar = goalWords.charAt(i);
-                    char playerChar = playerWords.charAt(i);
+        for (int i = 0; i < minLength; i++) {
+            char goalChar = goalWords.charAt(i);
+            char playerChar = playerWords.charAt(i);
 
-                    if (gameMode == GameMode.easy) {
-                        if (Character.toLowerCase(goalChar) == Character.toLowerCase(playerChar)) {
-                            correctCount++;
-                            currentStreak++;
-                        } else {
-                            maxLengthStreak = Math.max(maxLengthStreak, currentStreak);
-                            currentStreak = 0;
-                        }
-                    } else if (gameMode == GameMode.hard) {
-                        if (goalChar == playerChar) {
-                            correctCount++;
-                            currentStreak++;
-                        } else {
-                            maxLengthStreak = Math.max(maxLengthStreak, currentStreak);
-                            currentStreak = 0;
-                        }
-                    }
-                    accuracy = (double) correctCount / Math.max(goalWords.length(), playerWords.length()) * 100;
+            if (gameMode == GameMode.easy) {
+                if (Character.toLowerCase(goalChar) == Character.toLowerCase(playerChar)) {
+                    correctCount++;
+                    currentStreak++;
+                } else {
+                    mistakeCount++;
+                    maxLengthStreak = Math.max(maxLengthStreak, currentStreak);
+                    currentStreak = 0;
                 }
-
-                maxLengthStreak = Math.max(maxLengthStreak, currentStreak);
-
-                return new double[]{accuracy, correctCount, maxLengthStreak};
+            } else if (gameMode == GameMode.hard) {
+                if (goalChar == playerChar) {
+                    correctCount++;
+                    currentStreak++;
+                } else {
+                    mistakeCount++;
+                    maxLengthStreak = Math.max(maxLengthStreak, currentStreak);
+                    currentStreak = 0;
+                }
             }
+            accuracy = (double) correctCount / Math.max(goalWords.length(), playerWords.length()) * 100;
+        }
+
+        maxLengthStreak = Math.max(maxLengthStreak, currentStreak);
+
+        return new double[]{accuracy, correctCount, mistakeCount, maxLengthStreak};
+    }
+
 
     public void startStandardGameInSwedish(Player foundPlayer) {
         Match match = new Match();

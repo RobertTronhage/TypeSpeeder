@@ -25,7 +25,6 @@ public class Player {
     private List<Match> matches;
 
     public Player(String userName, String email, String password, int level, int experience, RoleType role) {
-        this.id = id;
         this.userName = userName;
         this.email = email;
         this.password = password;
@@ -61,9 +60,34 @@ public class Player {
         return level;
     }
 
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(RoleType role) {
+        this.role = role;
+    }
+
     public int getExperience() {
         return experience;
     }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
 
     public RoleType getRole() {
         return role;
@@ -79,6 +103,6 @@ public class Player {
                 ", level=" + level +
                 ", experience=" + experience +
                 ", role=" + role +
-                '}';
+                '}'+"\n";
     }
 }

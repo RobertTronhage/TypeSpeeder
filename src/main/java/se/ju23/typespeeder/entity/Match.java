@@ -11,7 +11,7 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     @ManyToOne
-    @JoinColumn(name="player_id",referencedColumnName = "id")
+    @JoinColumn(name="playerid",referencedColumnName = "id")
     private Player player;
     @Column(name="amountpercent")
     double amountOfCorrectWordsInPercent;
@@ -99,6 +99,6 @@ public class Match {
                 ", amountOfConsecutiveCorrectWords=" + amountOfConsecutiveCorrectWords +
                 ", timeToCompleteInSec=" + timeToCompleteInSec +
                 ", gameMode=" + gameMode +
-                '}';
+                '}'+"\n";
     }
 }
