@@ -1,7 +1,18 @@
+/**
+ * Challenge.java represents a challenge session in the TypeSpeeder game.
+ * It provides methods to start different types of challenges and handle game logic.
+ * This class is responsible for managing challenge sessions, generating random words,
+ * calculating accuracy, and updating player statistics.
+ * Author: Robert Tronhage, robert.tronhage@iths.se
+ * Date: 2024-02-22
+ */
+
 package se.ju23.typespeeder.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import se.ju23.typespeeder.Service.MatchService;
+import se.ju23.typespeeder.Service.PlayerService;
 import se.ju23.typespeeder.entity.Match;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.enums.GameMode;
@@ -21,8 +32,16 @@ public class Challenge implements Challengeable {
     ChallangeMenu challangeMenu;
     @Autowired
     IO io;
+    @Autowired
+    MatchService matchService;
+    @Autowired
+    PlayerService playerService;
     ColorHandler c;
-
+    /**
+     * Starts a challenge session for the given player.
+     * Displays the challenge menu and handles user input to start different types of challenges.
+     * @param foundPlayer The player participating in the challenge.
+     */
     @Override
     public void startChallenge(Player foundPlayer) {
         int choice = 0;
@@ -49,7 +68,11 @@ public class Challenge implements Challengeable {
             }
         } while (choice != 0);
     }
-
+    /**
+     * Generates a string of letters to be typed based on a list of random words.
+     * @param randomWords A list of random words.
+     * @return A string containing the letters to be typed.
+     */
     @Override
     public String lettersToType(List<String>randomWords) {
         StringBuilder generatedLetters = new StringBuilder();
@@ -58,7 +81,13 @@ public class Challenge implements Challengeable {
         }
         return generatedLetters.toString().trim();
     }
-
+    /**
+     * Calculates the accuracy, correct count, mistake count, and streak of a player's typing.
+     * @param goalWords The string of letters to be typed.
+     * @param playerWords The string of letters typed by the player.
+     * @param gameMode The game mode determining the accuracy calculation method.
+     * @return An array of doubles containing accuracy, correct count, mistake count, and streak.
+     */
     @Override
     public double[] checkAccuracy(String goalWords, String playerWords, GameMode gameMode) {
 
@@ -100,7 +129,12 @@ public class Challenge implements Challengeable {
         return new double[]{accuracy, correctCount, mistakeCount, maxLengthStreak};
     }
 
-
+    /**
+     * Starts a standard game challenge in Swedish for the given player. This method generates random words for the player to type,
+     * calculates the accuracy and time taken by the player to complete the challenge, updates the player's statistics, and creates a new match.
+     *
+     * @param foundPlayer The player who starts the challenge.
+     */
     public void startStandardGameInSwedish(Player foundPlayer) {
         Match match = new Match();
         match.setGameMode(setDifficultyForStandardGame());
@@ -115,17 +149,33 @@ public class Challenge implements Challengeable {
         String playerWords = io.getString();
 
         double endTime = System.currentTimeMillis();
-        double durationInSeconds = (endTime - startTime) / 1000 ;
+        double elapsedTimeInSeconds = (endTime - startTime) / 1000 ;
 
         double [] accuracy = checkAccuracy(goalWords,playerWords,match.getGameMode());
 
         double accuracyPercentage = accuracy[0];
+        double accuracyPsc = accuracy[1];
+        double misstakes = accuracy[2];
+        double streak = accuracy[3];
+
         String formattedAccuracy = String.format("%.2f", accuracyPercentage);
 
-        io.addString("Det tog " + durationInSeconds + "Sekunder att skriva klart!\n" +
+        io.addString("Det tog " + elapsedTimeInSeconds + "Sekunder att skriva klart!\n" +
                 "du hade en precision på " + formattedAccuracy + "%");
-    }
 
+        match.setAmountOfCorrectWordsInPercent(accuracyPercentage);
+        match.setAmountOfCorrectWordsInPcs(accuracyPsc);
+        match.setTimeToCompleteInSec(elapsedTimeInSeconds);
+        match.setAmountOfConsecutiveCorrectWords(streak);
+
+        matchService.createNewMatch(foundPlayer,accuracyPercentage,accuracyPsc,streak,elapsedTimeInSeconds,match.getGameMode());
+        playerService.updatePlayerExperienceAndLevel(foundPlayer,accuracyPsc,misstakes,elapsedTimeInSeconds);
+    }
+    /**
+     * Starts a standard game challenge in English for the given player. This method functions similarly to startStandardGameInSwedish, but with English words.
+     *
+     * @param foundPlayer The player who starts the challenge.
+     */
     public void startStandardGameInEnglish(Player foundPlayer) {
         Match match = new Match();
         match.setGameMode(setDifficultyForStandardGame());
@@ -140,16 +190,38 @@ public class Challenge implements Challengeable {
         String playerWords = io.getString();
 
         double endTime = System.currentTimeMillis();
-        double durationInSeconds = (endTime - startTime) / 1000 ;
+        double elapsedTimeInSeconds = (endTime - startTime) / 1000 ;
 
-        checkAccuracy(goalWords,playerWords,match.getGameMode());
+        double [] accuracy = checkAccuracy(goalWords,playerWords,match.getGameMode());
 
-        io.addString("it took " + durationInSeconds);
+        double accuracyPercentage = accuracy[0];
+        double accuracyPsc = accuracy[1];
+        double misstakes = accuracy[2];
+        double streak = accuracy[3];
+
+        String formattedAccuracy = String.format("%.2f", accuracyPercentage);
+
+        io.addString("It took " + elapsedTimeInSeconds + " seconds to finish!\n" +
+                "you had a precision " + formattedAccuracy + "%");
+
+        match.setAmountOfCorrectWordsInPercent(accuracyPercentage);
+        match.setAmountOfCorrectWordsInPcs(accuracyPsc);
+        match.setTimeToCompleteInSec(elapsedTimeInSeconds);
+        match.setAmountOfConsecutiveCorrectWords(streak);
+
+        matchService.createNewMatch(foundPlayer,accuracyPercentage,accuracyPsc,streak,elapsedTimeInSeconds,match.getGameMode());
+        playerService.updatePlayerExperienceAndLevel(foundPlayer,accuracyPsc,misstakes,elapsedTimeInSeconds);
     }
-
+    /**
+     * Starts a special character game challenge for the given player. This method generates random special characters for the player to type,
+     * processes the challenge similarly to the standard game challenges, and updates the player's statistics.
+     *
+     * @param foundPlayer The player who starts the challenge.
+     */
     public void startSpecialCharacterGame(Player foundPlayer) {
         Match match = new Match();
         match.setGameMode(GameMode.special_characters);
+
         getSpecialCharGameInstructions();
         String goalWords = lettersToType(Data.getRandomWordsForGame(Data.specialCharacters));
         String wait = (io.getAnyString());
@@ -159,17 +231,39 @@ public class Challenge implements Challengeable {
         String playerWords = io.getAnyString();
 
         double endTime = System.currentTimeMillis();
-        double durationInSeconds = (endTime - startTime) / 1000 ;
+        double elapsedTimeInSeconds = (endTime - startTime) / 1000 ;
 
         double [] accuracy = checkAccuracy(goalWords,playerWords,match.getGameMode());
 
         double accuracyPercentage = accuracy[0];
-        String formattedAccuracy = String.format("%.2f", accuracyPercentage);
-    }
+        double accuracyPsc = accuracy[1];
+        double misstakes = accuracy[2];
+        double streak = accuracy[3];
 
+        String formattedAccuracy = String.format("%.2f", accuracyPercentage);
+
+        io.addString("It took " + elapsedTimeInSeconds + " seconds to finish!\n" +
+                "you had a precision " + formattedAccuracy + "%");
+
+        match.setAmountOfCorrectWordsInPercent(accuracyPercentage);
+        match.setAmountOfCorrectWordsInPcs(accuracyPsc);
+        match.setTimeToCompleteInSec(elapsedTimeInSeconds);
+        match.setAmountOfConsecutiveCorrectWords(streak);
+
+        matchService.createNewMatch(foundPlayer,accuracyPercentage,accuracyPsc,streak,elapsedTimeInSeconds,match.getGameMode());
+        playerService.updatePlayerExperienceAndLevel(foundPlayer,accuracyPsc,misstakes,elapsedTimeInSeconds);
+    }
+    /**
+     * Starts a highlighted character game challenge for the given player. This method generates random words with highlighted characters for the player to type,
+     * processes the challenge similarly to the standard game challenges, and updates the player's statistics.
+     *
+     * @param foundPlayer The player who starts the challenge.
+     */
     public void startHighlightedCharacterGame(Player foundPlayer) {
         Match match = new Match();
+        match.setGameMode(GameMode.highlighted);
         getHighlightedGameInstructions();
+
         String goalWords = lettersToType(Data.getRandomWordsForGame(Data.englishWords));
         String highlightedGoalWords = Data.generateHighlightedWords(goalWords);
         String wait = (io.getAnyString());
@@ -179,15 +273,32 @@ public class Challenge implements Challengeable {
         String playerWords = io.getString();
 
         double endTime = System.currentTimeMillis();
-        double durationInSeconds = (endTime - startTime) / 1000 ;
+        double elapsedTimeInSeconds = (endTime - startTime) / 1000 ;
 
         double [] accuracy = checkAccuracy(goalWords,playerWords,match.getGameMode());
 
-        double accuracyPercentage = accuracy[0];
+        double accuracyPercentage = accuracy[0];double accuracyPsc = accuracy[1];
+        double misstakes = accuracy[2];
+        double streak = accuracy[3];
+
         String formattedAccuracy = String.format("%.2f", accuracyPercentage);
 
-    }
+        io.addString("It took " + elapsedTimeInSeconds + " seconds to finish!\n" +
+                "you had a precision " + formattedAccuracy + "%");
 
+        match.setAmountOfCorrectWordsInPercent(accuracyPercentage);
+        match.setAmountOfCorrectWordsInPcs(accuracyPsc);
+        match.setTimeToCompleteInSec(elapsedTimeInSeconds);
+        match.setAmountOfConsecutiveCorrectWords(streak);
+
+        matchService.createNewMatch(foundPlayer,accuracyPercentage,accuracyPsc,streak,elapsedTimeInSeconds,match.getGameMode());
+
+        playerService.updatePlayerExperienceAndLevel(foundPlayer,accuracyPsc,misstakes,elapsedTimeInSeconds);
+    }
+    /**
+     * Provides instructions for the standard game in either Swedish or English, depending on the language choice.
+     * Displays a set of words on the screen for the player to type, with prompts to start the game.
+     */
     public void getStandardGameInstructions() {
         if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")) {
             io.addString("""
@@ -203,7 +314,12 @@ public class Challenge implements Challengeable {
                     """);
         }
     }
-
+    /**
+     * Sets the difficulty level for the standard game based on player input.
+     * Displays instructions for difficulty selection and returns the chosen GameMode.
+     *
+     * @return The selected difficulty level as a GameMode enum value.
+     */
     public GameMode setDifficultyForStandardGame(){
         if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")) {
             io.addString("""
@@ -230,6 +346,10 @@ public class Challenge implements Challengeable {
             return GameMode.hard;
         }
     }
+    /**
+     * Provides instructions for the highlighted character game in either Swedish or English, depending on the language choice.
+     * Displays a set of words with highlighted characters on the screen for the player to type, with prompts to start the game.
+     */
     public void getHighlightedGameInstructions() {
         if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")) {
             io.addString("""
@@ -247,6 +367,10 @@ public class Challenge implements Challengeable {
                     """);
         }
     }
+    /**
+     * Provides instructions for the special character game in either Swedish or English, depending on the language choice.
+     * Displays a set of special characters on the screen for the player to type, with prompts to start the game.
+     */
     public void getSpecialCharGameInstructions() {
         if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")) {
             io.addString("""

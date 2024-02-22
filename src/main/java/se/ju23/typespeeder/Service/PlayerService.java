@@ -142,8 +142,18 @@ public class PlayerService {
         playerRepo.save(player);
     }
 
-    public void updatePlayerExperienceAndLevel(Player foundPlayer, int correctWordCount, int mistakeCount) {
-        int xpEarned = calculateExperienceEarned(correctWordCount, mistakeCount);
+    public void updatePlayerExperienceAndLevel(Player foundPlayer, double correctWordCount, double mistakeCount,double elapsedTimeInSeconds) {
+        double totalPoints = correctWordCount - (0.5 * mistakeCount);
+
+        if (elapsedTimeInSeconds > 20){
+            totalPoints -= (elapsedTimeInSeconds - 20);
+        }else {
+            totalPoints += (20 - elapsedTimeInSeconds);
+        }
+
+        double xpPerPoint = 0.5;
+
+        int xpEarned = (int) (totalPoints * xpPerPoint);
 
         int currentExperience = foundPlayer.getExperience();
         int updatedExperience = currentExperience + xpEarned;
@@ -155,8 +165,8 @@ public class PlayerService {
         playerRepo.save(foundPlayer);
     }
 
-    private int calculatePlayerLevel(int totalXP) {
-        return totalXP / 100;
+    private int calculatePlayerLevel(int updatedExperience) {
+        return updatedExperience / 100;
     }
 
     private int calculateExperienceEarned(int correctWordCount, int mistakeCount) {
