@@ -159,15 +159,17 @@ public class Controller {
     public void editPlayerMenu(Player foundPlayer){
         managePlayersMenu.displayMenu(foundPlayer);
 
-        int userChoice = io.getValidIntegerInput(0,4);
+        int userChoice=0;
 
         do {
+            userChoice = io.getValidIntegerInput(0,4);
             switch (userChoice){
                 case 0 -> {
                     return;
                 }
                 case 1 -> {
                     playerService.addNewPlayer();
+                    return;
                 }
                 case 2 -> {
                     //display players - menu
@@ -175,9 +177,11 @@ public class Controller {
                 }
                 case 3 -> {
                     playerService.editPlayer();
+                    return;
                 }
                 case 4 -> {
                     playerService.deletePlayer();
+                    return;
                 }
             }
         }while (userChoice != 0);
