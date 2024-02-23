@@ -22,7 +22,6 @@ import java.util.List;
 @Component
 public class Menu implements MenuService {
 
-
     private String languageChoice;
 
     public String getLanguageChoice() {
@@ -31,11 +30,11 @@ public class Menu implements MenuService {
 
     @Override
     public List getMenuOptions() {
-        return new ArrayList(Arrays.asList("0 - Exit", "1 - Play game", "2 - View your stats", "3 - View global leaderboard", "4 - Manage Players (Admin)"));
+        return new ArrayList(Arrays.asList("0 - Exit", "1 - Play game", "2 - View your stats", "3 - View global leaderboard", "4 - Manage Players (Admin)","5 - Newsletter"));
     }
 
     public List getMenuOptionsInSwedish() {
-        return new ArrayList(Arrays.asList("0 - Logga ut", "1 - Spela", "2 - Se din statistik", "3 - Visa global topplista", "4 - Hantera spelare (Admin)"));
+        return new ArrayList(Arrays.asList("0 - Logga ut", "1 - Spela", "2 - Se din statistik", "3 - Visa global topplista", "4 - Hantera spelare (Admin)" , "5 - Nyhetsbrev"));
     }
 
     @Override
