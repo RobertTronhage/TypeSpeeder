@@ -1,3 +1,7 @@
+/**
+ * The Data class provides static methods for generating random words and handling special characters.
+ * @Author: Robert Tronhage
+ */
 package se.ju23.typespeeder.logic;
 
 import se.ju23.typespeeder.io.ColorHandler;

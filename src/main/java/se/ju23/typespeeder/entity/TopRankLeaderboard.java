@@ -1,3 +1,9 @@
+/**
+ * The TopRankLeaderboard class represents an entry in the top rank leaderboard view of the TypeSpeeder game.
+ * It contains information about the player's ID, username, and level.
+ *
+ * @Author: Robert Tronhage
+ */
 package se.ju23.typespeeder.entity;
 
 import jakarta.persistence.*;

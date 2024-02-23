@@ -38,6 +38,9 @@ public class Challenge implements Challengeable {
     PlayerService playerService;
     ColorHandler c;
 
+    public Challenge() {
+    }
+
     /**
      * Starts a challenge session for the given player.
      * Displays the challenge menu and handles user input to start different types of challenges.
@@ -150,7 +153,7 @@ public class Challenge implements Challengeable {
             getStandardGameInstructions();
 
             wait = io.getAnyString();
-            if (wait.equals("0")){
+            if (wait.equals("0")) {
                 break;
             }
 
@@ -197,13 +200,13 @@ public class Challenge implements Challengeable {
             Match match = new Match();
             match.setGameMode(setDifficultyForStandardGame(foundPlayer));
 
-            if (match.getGameMode().equals(null)){
+            if (match.getGameMode().equals(null)) {
                 break;
             }
 
             getStandardGameInstructions();
             wait = io.getAnyString();
-            if (wait.equals("0")){
+            if (wait.equals("0")) {
                 break;
             }
             String goalWords = lettersToType(Data.getRandomWordsForGame(Data.englishWords));
@@ -325,6 +328,11 @@ public class Challenge implements Challengeable {
         playerService.updatePlayerExperienceAndLevel(foundPlayer, accuracyPsc, misstakes, elapsedTimeInSeconds);
     }
 
+    /**
+     * Prepares String for check of accuracy
+     *
+     * @param highlightedGoalWords the generated String with highlighted words.
+     */
     private String extractBlueText(String highlightedGoalWords) {
         String[] parts = highlightedGoalWords.split("\u001B\\[34m"); // Dela upp vid blå färgkod
 
@@ -378,27 +386,27 @@ public class Challenge implements Challengeable {
     public GameMode setDifficultyForStandardGame(Player foundPlayer) {
         int choice = 0;
 
-            if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")) {
-                io.addString("""
-                        Vänligen välj svårighet:
-                        1 - lätt
-                        2 - Svår (Skiftlägeskänslig)
-                        """);
-            } else {
-                io.addString("""
-                        Please choose difficulty:
-                        1 - easy
-                        2 - Hard (Case sensitive)
-                        """);
-            }
-            choice = io.getValidIntegerInput(1, 2);
+        if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")) {
+            io.addString("""
+                    Vänligen välj svårighet:
+                    1 - lätt
+                    2 - Svår (Skiftlägeskänslig)
+                    """);
+        } else {
+            io.addString("""
+                    Please choose difficulty:
+                    1 - easy
+                    2 - Hard (Case sensitive)
+                    """);
+        }
+        choice = io.getValidIntegerInput(1, 2);
 
 
-            if (choice == 1) {
-                return GameMode.easy;
-            }else{
-                return GameMode.hard;
-            }
+        if (choice == 1) {
+            return GameMode.easy;
+        } else {
+            return GameMode.hard;
+        }
 
     }
 

@@ -1,3 +1,9 @@
+/**
+ * The AccuracyLeaderBoard class represents an entity mapping to the accuracy_leaderboard_view table in the database.
+ * It stores information about players' accuracy scores for leaderboard display.
+ *
+ * @Author: Robert Tronhage
+ */
 package se.ju23.typespeeder.entity;
 
 import jakarta.persistence.*;

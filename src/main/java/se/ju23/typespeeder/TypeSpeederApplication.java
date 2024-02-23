@@ -1,3 +1,7 @@
+/**
+ * Main class for the TypeSpeeder application.
+ * @Author: Robert Tronhage
+ */
 package se.ju23.typespeeder;
 
 import org.springframework.beans.factory.annotation.Autowired;

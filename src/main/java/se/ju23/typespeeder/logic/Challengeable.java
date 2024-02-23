@@ -1,3 +1,8 @@
+/**
+ * The Challengeable interface defines methods for starting a challenge, generating letters to type,
+ * and checking accuracy.
+ * @Author: Robert Tronhage
+ */
 package se.ju23.typespeeder.logic;
 
 import se.ju23.typespeeder.entity.Player;

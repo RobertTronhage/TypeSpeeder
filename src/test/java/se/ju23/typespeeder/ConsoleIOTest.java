@@ -1,3 +1,7 @@
+/**
+ * Test class for the ConsoleIO class.
+ * @Author: Robert Tronhage
+ */
 package se.ju23.typespeeder;
 
 import org.junit.jupiter.api.Test;

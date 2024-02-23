@@ -1,4 +1,10 @@
 package se.ju23.typespeeder.entity;
+/**
+ * The StreakLeaderboard class represents an entry in the streak leaderboard view of the TypeSpeeder game.
+ * It contains information about the username and the amount of consecutive correct words.
+ *
+ * @Author: Robert Tronhage
+ */
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,6 +27,7 @@ public class StreakLeaderboard {
 
     public StreakLeaderboard() {
     }
+
     public String getUsername() {
         return username;
     }

@@ -1,3 +1,8 @@
+/**
+ * Test class for the NewsLetter class methods.
+ * @Author: Oskar Ray-Frayssinet
+ */
+
 package se.ju23.typespeeder;
 
 import org.junit.jupiter.api.Test;

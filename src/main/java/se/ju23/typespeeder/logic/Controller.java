@@ -1,3 +1,7 @@
+/**
+ * The Controller class orchestrates the flow of the application, handling user input and directing the application's logic.
+ * @Author: Robert Tronhage
+ */
 package se.ju23.typespeeder.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;

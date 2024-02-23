@@ -1,4 +1,10 @@
+/**
+ * The ConsoleIO class implements the IO interface for handling console input and output.
+ *
+ * @Author: Robert Tronhage
+ */
 package se.ju23.typespeeder.io;
+
 import org.springframework.stereotype.Component;
 import se.ju23.typespeeder.menu.Menu;
 
@@ -6,23 +12,23 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 @Component
-public class ConsoleIO implements IO{
+public class ConsoleIO implements IO {
     private Scanner scanner;
 
-    public ConsoleIO(){
+    public ConsoleIO() {
         this.scanner = new Scanner(System.in);
     }
 
-    public void introText(){
+    public void introText() {
         System.out.println("Welcome to");
-        System.out.println( " ______              ____                __       \n" +
+        System.out.println(" ______              ____                __       \n" +
                 "/_  __/_ _____  ___ / __/__  ___ ___ ___/ /__ ____\n" +
                 " / / / // / _ \\/ -_)\\ \\/ _ \\/ -_) -_) _  / -_) __/\n" +
                 "/_/  \\_, / .__/\\__/___/ .__/\\__/\\__/\\_,_/\\__/_/   \n" +
                 "    /___/_/          /_/                          ");
     }
 
-    public int getValidIntegerInput(int minValue, int maxValue){
+    public int getValidIntegerInput(int minValue, int maxValue) {
         int userInput = 0;
         boolean isUserInputInvalid;
 
@@ -96,7 +102,7 @@ public class ConsoleIO implements IO{
     }
 
     @Override
-    public String getAnyString(){
+    public String getAnyString() {
         String userInput = scanner.nextLine();
 
         return userInput;
@@ -108,7 +114,8 @@ public class ConsoleIO implements IO{
     }
 
     @Override
-    public void clear() {}
+    public void clear() {
+    }
 
     @Override
     public void exit() {

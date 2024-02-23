@@ -1,3 +1,9 @@
+/**
+ * The SpeedLeaderboard class represents an entry in the speed leaderboard view of the TypeSpeeder game.
+ * It contains information about the username and the time taken to complete a game in seconds.
+ *
+ * @Author: Robert Tronhage
+ */
 package se.ju23.typespeeder.entity;
 
 import jakarta.persistence.*;

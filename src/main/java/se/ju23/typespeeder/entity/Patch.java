@@ -1,3 +1,9 @@
+/**
+ * The Patch class represents a patch entity in the TypeSpeeder game.
+ * It contains information about the patch version and the release date and time.
+ *
+ * @Author: Robert Tronhage
+ */
 package se.ju23.typespeeder.entity;
 
 import jakarta.persistence.Entity;

@@ -1,3 +1,9 @@
+/**
+ * The Match class represents a match entity in the TypeSpeeder game.
+ * It stores information about matches, including player statistics and game mode.
+ *
+ * @Author Robert Tronhage
+ */
 package se.ju23.typespeeder.entity;
 
 import jakarta.persistence.*;
@@ -5,21 +11,21 @@ import se.ju23.typespeeder.enums.GameMode;
 import se.ju23.typespeeder.enums.RoleType;
 
 @Entity
-@Table(name="matches")
+@Table(name = "matches")
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     @ManyToOne
-    @JoinColumn(name="playerid",referencedColumnName = "id")
+    @JoinColumn(name = "playerid", referencedColumnName = "id")
     private Player player;
-    @Column(name="amountpercent")
+    @Column(name = "amountpercent")
     double amountOfCorrectWordsInPercent;
-    @Column(name="amountpcs")
+    @Column(name = "amountpcs")
     double amountOfCorrectWordsInPcs;
-    @Column(name="amountconsecutive")
+    @Column(name = "amountconsecutive")
     double amountOfConsecutiveCorrectWords;
-    @Column(name="elapsedtime")
+    @Column(name = "elapsedtime")
     double timeToCompleteInSec;
     @Column(name = "gamemode")
     @Enumerated(EnumType.STRING)
@@ -99,6 +105,6 @@ public class Match {
                 ", amountOfConsecutiveCorrectWords=" + amountOfConsecutiveCorrectWords +
                 ", timeToCompleteInSec=" + timeToCompleteInSec +
                 ", gameMode=" + gameMode +
-                '}'+"\n";
+                '}' + "\n";
     }
 }

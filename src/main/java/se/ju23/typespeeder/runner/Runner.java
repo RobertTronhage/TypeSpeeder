@@ -1,3 +1,7 @@
+/**
+ * Runner class implementing CommandLineRunner to execute logic upon application startup.
+ * @Author: Robert Tronhage
+ */
 package se.ju23.typespeeder.runner;
 
 import org.springframework.beans.factory.annotation.Autowired;

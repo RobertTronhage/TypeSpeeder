@@ -1,3 +1,9 @@
+/**
+ * The Player class represents a player entity in the TypeSpeeder game.
+ * It contains information about the player, including username, email, password, level, experience, and role.
+ *
+ * @Author: Robert Tronhage
+ */
 package se.ju23.typespeeder.entity;
 
 import jakarta.persistence.*;
@@ -11,7 +17,7 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    @Column(name="username")
+    @Column(name = "username")
     String userName;
     String email;
     String password;
@@ -107,6 +113,6 @@ public class Player {
                 ", level=" + level +
                 ", experience=" + experience +
                 ", role=" + role +
-                '}'+"\n";
+                '}' + "\n";
     }
 }

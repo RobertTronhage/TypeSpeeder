@@ -1,3 +1,8 @@
+/**
+ * The ColorHandler class provides static methods to colorize text for console output.
+ *
+ * @Author: Robert Tronhage
+ */
 package se.ju23.typespeeder.io;
 
 public class ColorHandler {
