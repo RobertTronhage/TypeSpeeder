@@ -16,7 +16,7 @@ public class PatchTest {
     @Test
     public void testPatchClassExists() {
         try {
-            Class.forName("Patch");
+            Class.forName("se.ju23.typespeeder.entity.Patch");
         } catch (ClassNotFoundException e) {
             throw new AssertionError("Patch class should exist.", e);
         }
@@ -33,6 +33,9 @@ public class PatchTest {
 
             Field releaseDateTime = someClass.getDeclaredField("releaseDateTime");
             assertNotNull(releaseDateTime, "Field 'releaseDateTime' should exist in Patch class.");
+
+            patchVersion.setAccessible(true);
+            releaseDateTime.setAccessible(true);
 
             assertTrue(releaseDateTime.getType().equals(LocalDateTime.class), "Field 'releaseDateTime' should be of type LocalDateTime.");
 
