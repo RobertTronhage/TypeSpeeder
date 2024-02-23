@@ -1,4 +1,4 @@
-package se.ju23.typespeeder;
+package se.ju23.typespeeder.entity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

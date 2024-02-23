@@ -89,6 +89,9 @@ public class Controller {
                 case 4 ->{
                     editPlayerMenu(foundPlayer);
                 }
+                case 5 -> {
+                    //NEWSLETTER
+                }
             }
         }while(menuOption != 0);
     }
