@@ -21,7 +21,7 @@ public class Player {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Match> matches;
 
     public Player(String userName, String email, String password, int level, int experience, RoleType role) {
@@ -38,6 +38,10 @@ public class Player {
     }
 
     public Player(String username, String password, int i, int i1, RoleType roleType) {
+    }
+
+    public List<Match> getMatches() {
+        return matches;
     }
 
     public long getId() {

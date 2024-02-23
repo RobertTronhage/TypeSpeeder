@@ -2,11 +2,13 @@ package se.ju23.typespeeder.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.ju23.typespeeder.entity.Match;
 import se.ju23.typespeeder.entity.Player;
 import se.ju23.typespeeder.enums.RoleType;
 import se.ju23.typespeeder.io.ConsoleIO;
 import se.ju23.typespeeder.io.IO;
 import se.ju23.typespeeder.menu.Menu;
+import se.ju23.typespeeder.repository.MatchRepo;
 import se.ju23.typespeeder.repository.PlayerRepo;
 
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ public class PlayerService {
     PlayerRepo playerRepo;
     @Autowired
     Menu menu;
+    @Autowired
+    MatchRepo matchRepo;
     IO io = new ConsoleIO();
 
     public void addNewPlayer() {
@@ -35,6 +39,35 @@ public class PlayerService {
         io.addString("set Role");
         setPlayerRole(player);
         playerRepo.save(player);
+    }
+
+    public void displayLoggedInPlayerStats(Player foundPlayer){
+        if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")){
+            io.addString("Här är din spelarstatistik " + foundPlayer.getUserName() + ":");
+            io.addString("Nivå: " + foundPlayer.getLevel());
+            io.addString("XP: " + foundPlayer.getExperience());
+            io.addString("Antal matcher: ");
+            io.addString("Antal rätt i snitt (procent): " + calculateAverageCorrectnessInPercent(foundPlayer) + "%");
+        }else {
+            io.addString("This is your player stats " + foundPlayer.getUserName() + ":");
+            io.addString("Level: " + foundPlayer.getLevel());
+            io.addString("XP: " + foundPlayer.getExperience());
+            io.addString("Number of played matches: " + foundPlayer.getMatches().size());
+            io.addString("All time Correctness in percent: " + String.format("%2f",calculateAverageCorrectnessInPercent(foundPlayer)) + "%\n\n");
+        }
+    }
+
+    private double calculateAverageCorrectnessInPercent(Player foundPlayer){
+        List<Match> matches = foundPlayer.getMatches();
+
+        if (matches.isEmpty()){
+            return 0.0;
+        }
+        double totalCorrectness = 0.0;
+        for (Match m : matches){
+            totalCorrectness += m.getAmountOfCorrectWordsInPercent();
+        }
+        return totalCorrectness / matches.size();
     }
 
     public void editPlayer() {

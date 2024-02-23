@@ -82,7 +82,7 @@ public class Controller {
                     challenge.startChallenge(foundPlayer);
                 }
                 case 2 -> {
-                    //playerService.displayFoundPlayersStats(foundPlayer);
+                    playerService.displayLoggedInPlayerStats(foundPlayer);
                 }
                 case 3 -> {
                     leaderBoardMenu(foundPlayer);
