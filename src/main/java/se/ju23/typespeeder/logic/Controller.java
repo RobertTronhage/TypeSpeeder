@@ -10,6 +10,7 @@ import se.ju23.typespeeder.io.IO;
 import se.ju23.typespeeder.menu.*;
 import se.ju23.typespeeder.repository.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -90,7 +91,9 @@ public class Controller {
                     editPlayerMenu(foundPlayer);
                 }
                 case 5 -> {
-                    //NEWSLETTER
+                    NewsLetter newsLetter = new NewsLetter(LocalDateTime.now());
+                    String content = newsLetter.getContent();
+                    io.addString(content);
                 }
             }
         }while(menuOption != 0);
