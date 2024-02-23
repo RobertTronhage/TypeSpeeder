@@ -142,40 +142,47 @@ public class Challenge implements Challengeable {
      * @param foundPlayer The player who starts the challenge.
      */
     public void startStandardGameInSwedish(Player foundPlayer) {
-        Match match = new Match();
-        match.setGameMode(setDifficultyForStandardGame());
-        getStandardGameInstructions();
+        String wait;
 
-        String wait = io.getAnyString();
+        do {
+            Match match = new Match();
+            match.setGameMode(setDifficultyForStandardGame(foundPlayer));
+            getStandardGameInstructions();
 
-        double startTime = System.currentTimeMillis();
+            wait = io.getAnyString();
+            if (wait.equals("0")){
+                break;
+            }
 
-        String goalWords = lettersToType(Data.getRandomWordsForGame(Data.swedishWords));
-        io.addString(goalWords);
-        String playerWords = io.getString();
+            double startTime = System.currentTimeMillis();
 
-        double endTime = System.currentTimeMillis();
-        double elapsedTimeInSeconds = (endTime - startTime) / 1000;
+            String goalWords = lettersToType(Data.getRandomWordsForGame(Data.swedishWords));
+            io.addString(goalWords);
+            String playerWords = io.getString();
 
-        double[] accuracy = checkAccuracy(goalWords, playerWords, match.getGameMode());
+            double endTime = System.currentTimeMillis();
+            double elapsedTimeInSeconds = (endTime - startTime) / 1000;
 
-        double accuracyPercentage = accuracy[0];
-        double accuracyPsc = accuracy[1];
-        double misstakes = accuracy[2];
-        double streak = accuracy[3];
+            double[] accuracy = checkAccuracy(goalWords, playerWords, match.getGameMode());
 
-        String formattedAccuracy = String.format("%.2f", accuracyPercentage);
+            double accuracyPercentage = accuracy[0];
+            double accuracyPsc = accuracy[1];
+            double misstakes = accuracy[2];
+            double streak = accuracy[3];
 
-        io.addString("Det tog " + elapsedTimeInSeconds + "Sekunder att skriva klart!\n" +
-                "du hade en precision på " + formattedAccuracy + "%");
+            String formattedAccuracy = String.format("%.2f", accuracyPercentage);
 
-        match.setAmountOfCorrectWordsInPercent(accuracyPercentage);
-        match.setAmountOfCorrectWordsInPcs(accuracyPsc);
-        match.setTimeToCompleteInSec(elapsedTimeInSeconds);
-        match.setAmountOfConsecutiveCorrectWords(streak);
+            io.addString("Det tog " + elapsedTimeInSeconds + "Sekunder att skriva klart!\n" +
+                    "du hade en precision på " + formattedAccuracy + "%");
 
-        matchService.createNewMatch(foundPlayer, accuracyPercentage, accuracyPsc, streak, elapsedTimeInSeconds, match.getGameMode());
-        playerService.updatePlayerExperienceAndLevel(foundPlayer, accuracyPsc, misstakes, elapsedTimeInSeconds);
+            match.setAmountOfCorrectWordsInPercent(accuracyPercentage);
+            match.setAmountOfCorrectWordsInPcs(accuracyPsc);
+            match.setTimeToCompleteInSec(elapsedTimeInSeconds);
+            match.setAmountOfConsecutiveCorrectWords(streak);
+
+            matchService.createNewMatch(foundPlayer, accuracyPercentage, accuracyPsc, streak, elapsedTimeInSeconds, match.getGameMode());
+            playerService.updatePlayerExperienceAndLevel(foundPlayer, accuracyPsc, misstakes, elapsedTimeInSeconds);
+        } while (!wait.equals("0"));
     }
 
     /**
@@ -184,40 +191,51 @@ public class Challenge implements Challengeable {
      * @param foundPlayer The player who starts the challenge.
      */
     public void startStandardGameInEnglish(Player foundPlayer) {
-        Match match = new Match();
-        match.setGameMode(setDifficultyForStandardGame());
+        String wait;
 
-        getStandardGameInstructions();
-        String wait = io.getAnyString();
-        String goalWords = lettersToType(Data.getRandomWordsForGame(Data.englishWords));
-        double startTime = System.currentTimeMillis();
+        do {
+            Match match = new Match();
+            match.setGameMode(setDifficultyForStandardGame(foundPlayer));
 
-        io.addString(goalWords);
+            if (match.getGameMode().equals(null)){
+                break;
+            }
 
-        String playerWords = io.getString();
+            getStandardGameInstructions();
+            wait = io.getAnyString();
+            if (wait.equals("0")){
+                break;
+            }
+            String goalWords = lettersToType(Data.getRandomWordsForGame(Data.englishWords));
+            double startTime = System.currentTimeMillis();
 
-        double endTime = System.currentTimeMillis();
-        double elapsedTimeInSeconds = (endTime - startTime) / 1000;
+            io.addString(goalWords);
 
-        double[] accuracy = checkAccuracy(goalWords, playerWords, match.getGameMode());
+            String playerWords = io.getString();
 
-        double accuracyPercentage = accuracy[0];
-        double accuracyPsc = accuracy[1];
-        double misstakes = accuracy[2];
-        double streak = accuracy[3];
+            double endTime = System.currentTimeMillis();
+            double elapsedTimeInSeconds = (endTime - startTime) / 1000;
 
-        String formattedAccuracy = String.format("%.2f", accuracyPercentage);
+            double[] accuracy = checkAccuracy(goalWords, playerWords, match.getGameMode());
 
-        io.addString("It took " + elapsedTimeInSeconds + " seconds to finish!\n" +
-                "you had a precision " + formattedAccuracy + "%");
+            double accuracyPercentage = accuracy[0];
+            double accuracyPsc = accuracy[1];
+            double misstakes = accuracy[2];
+            double streak = accuracy[3];
 
-        match.setAmountOfCorrectWordsInPercent(accuracyPercentage);
-        match.setAmountOfCorrectWordsInPcs(accuracyPsc);
-        match.setTimeToCompleteInSec(elapsedTimeInSeconds);
-        match.setAmountOfConsecutiveCorrectWords(streak);
+            String formattedAccuracy = String.format("%.2f", accuracyPercentage);
 
-        matchService.createNewMatch(foundPlayer, accuracyPercentage, accuracyPsc, streak, elapsedTimeInSeconds, match.getGameMode());
-        playerService.updatePlayerExperienceAndLevel(foundPlayer, accuracyPsc, misstakes, elapsedTimeInSeconds);
+            io.addString("It took " + elapsedTimeInSeconds + " seconds to finish!\n" +
+                    "you had a precision " + formattedAccuracy + "%");
+
+            match.setAmountOfCorrectWordsInPercent(accuracyPercentage);
+            match.setAmountOfCorrectWordsInPcs(accuracyPsc);
+            match.setTimeToCompleteInSec(elapsedTimeInSeconds);
+            match.setAmountOfConsecutiveCorrectWords(streak);
+
+            matchService.createNewMatch(foundPlayer, accuracyPercentage, accuracyPsc, streak, elapsedTimeInSeconds, match.getGameMode());
+            playerService.updatePlayerExperienceAndLevel(foundPlayer, accuracyPsc, misstakes, elapsedTimeInSeconds);
+        } while (!wait.equals("0"));
     }
 
     /**
@@ -339,13 +357,13 @@ public class Challenge implements Challengeable {
         if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")) {
             io.addString("""
                     Ett antal ord kommer visas på skärmen, skriv av orden, när du skrivit klart. Tryck Enter
-                    Tryck på Enter när du är redo att starta!
+                    Tryck på Enter när du är redo att starta Eller tryck '0' och Enter för att avbryta!
 
                     """);
         } else {
             io.addString("""
                     A number of words will be displayed on the screen. Type the words, and when you're finished typing, press Enter.
-                    Press Enter when ready to start!
+                    Press Enter when ready to start or press '0' and Enter to exit!
 
                     """);
         }
@@ -357,31 +375,31 @@ public class Challenge implements Challengeable {
      *
      * @return The selected difficulty level as a GameMode enum value.
      */
-    public GameMode setDifficultyForStandardGame() {
-        if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")) {
-            io.addString("""
-                    Vänligen välj svårighet:
-                    0 - Avsluta och åter till meny
-                    1 - lätt
-                    2 - Svår (Skiftlägeskänslig)
-                    """);
-        } else {
-            io.addString("""
-                    Please choose difficulty:
-                    0 - Exit and return to menu
-                    1 - easy
-                    2 - Hard (Case sensitive)
-                    """);
-        }
-        int choice = io.getValidIntegerInput(0, 2);
+    public GameMode setDifficultyForStandardGame(Player foundPlayer) {
+        int choice = 0;
 
-        if (choice == 0) {
-            return null;
-        } else if (choice == 1) {
-            return GameMode.easy;
-        } else {
-            return GameMode.hard;
-        }
+            if (menu.getLanguageChoice().equals("svenska") || menu.getLanguageChoice().equals("swedish")) {
+                io.addString("""
+                        Vänligen välj svårighet:
+                        1 - lätt
+                        2 - Svår (Skiftlägeskänslig)
+                        """);
+            } else {
+                io.addString("""
+                        Please choose difficulty:
+                        1 - easy
+                        2 - Hard (Case sensitive)
+                        """);
+            }
+            choice = io.getValidIntegerInput(1, 2);
+
+
+            if (choice == 1) {
+                return GameMode.easy;
+            }else{
+                return GameMode.hard;
+            }
+
     }
 
     /**
