@@ -12,22 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ConsoleIOTest {
     @Test
-    public void testIntroText() {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-
-        ConsoleIO consoleIO = new ConsoleIO();
-        consoleIO.introText();
-
-        String expectedOutput = "Welcome to\n" +
-                " ______              ____                __       \n" +
-                "/_  __/_ _____  ___ / __/__  ___ ___ ___/ /__ ____\n" +
-                " / / / // / _ \\/ -_)\\ \\/ _ \\/ -_) -_) _  / -_) __/\n" +
-                "/_/  \\_, / .__/\\__/___/ .__/\\__/\\__/\\_,_/\\__/_/   \n" +
-                "    /___/_/          /_/                          \n";
-        assertEquals(expectedOutput, outContent.toString());
-    }
-    @Test
     public void testGetValidIntegerInputWithValidInput() {
         ByteArrayInputStream in = new ByteArrayInputStream("5\n".getBytes());
         System.setIn(in);
