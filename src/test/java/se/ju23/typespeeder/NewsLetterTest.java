@@ -1,6 +1,7 @@
 package se.ju23.typespeeder;
 
 import org.junit.jupiter.api.Test;
+import se.ju23.typespeeder.entity.NewsLetter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -25,13 +26,15 @@ public class NewsLetterTest {
     public void testNewsLetterContentLength() {
         try {
             Class<?> newsLetterClass = Class.forName("se.ju23.typespeeder.entity.NewsLetter");
+            //added a LocalDateTime-object
+            LocalDateTime currentDateTime = LocalDateTime.now();
 
             Field contentField = newsLetterClass.getDeclaredField("content");
             assertNotNull(contentField, "Field 'content' should exist in NewsLetter.");
 
             assertTrue(contentField.getType().equals(String.class), "Field 'content' should be of type String.");
 
-            Object instance = newsLetterClass.getDeclaredConstructor().newInstance();
+            Object instance = newsLetterClass.getDeclaredConstructor(LocalDateTime.class).newInstance(currentDateTime);
             Field field = newsLetterClass.getDeclaredField("content");
             field.setAccessible(true);
             String contentValue = (String) field.get(instance);
@@ -54,12 +57,17 @@ public class NewsLetterTest {
 
             assertTrue(publishDateTime.getType().equals(LocalDateTime.class), "Field 'publishDateTime' should be of type LocalDateTime.");
 
-            Object instance = someClass.getDeclaredConstructor().newInstance();
+            Object instance = someClass.getDeclaredConstructor(LocalDateTime.class).newInstance(LocalDateTime.now());
+
+            //not wanting to change field to public
+            publishDateTime.setAccessible(true);
+
             LocalDateTime dateTimeValue = (LocalDateTime) publishDateTime.get(instance);
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String formattedDateTime = dateTimeValue.format(formatter);
-            assertEquals("Expected format", formattedDateTime, "'publishDateTime' field should have format 'yyyy-MM-dd HH:mm:ss'.");
+            //added newsletter hard-coded date
+            assertEquals("2024-02-23 10:15:20", formattedDateTime, "'publishDateTime' field should have format 'yyyy-MM-dd HH:mm:ss'.");
 
             Method getterMethod = someClass.getDeclaredMethod("getPublishDateTime");
             assertNotNull(getterMethod, "Getter method for the field 'publishDateTime' should exist.");
